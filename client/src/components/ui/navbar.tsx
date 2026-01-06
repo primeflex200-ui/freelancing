@@ -13,7 +13,7 @@ export function Navbar() {
             <div className="bg-primary/10 p-2 rounded-lg group-hover:bg-primary/20 transition-colors">
               <Code2 className="w-6 h-6 text-primary" />
             </div>
-            <span className="font-display font-bold text-xl tracking-tight text-white">
+            <span className="font-display font-bold text-xl tracking-tight text-black">
               StackWeb
             </span>
           </div>
@@ -25,7 +25,7 @@ export function Navbar() {
             <a 
               key={item} 
               href={`#${item.toLowerCase()}`}
-              className="text-sm font-medium text-muted-foreground hover:text-white transition-colors"
+              className="text-sm font-medium text-muted-foreground hover:text-black transition-colors"
             >
               {item}
             </a>
@@ -35,11 +35,11 @@ export function Navbar() {
         {/* CTA */}
         <div className="flex items-center gap-4">
           <Link href="/contact">
-            <Button variant="ghost" className="hidden sm:flex text-muted-foreground hover:text-white hover:bg-white/5">
+            <Button variant="ghost" className="hidden sm:flex text-muted-foreground hover:text-black hover:bg-black/5">
               Login
             </Button>
           </Link>
-          <Button className="bg-white text-black hover:bg-gray-200 font-medium rounded-full px-6">
+          <Button className="bg-black text-white hover:bg-zinc-800 font-medium rounded-full px-6">
             Start Project
           </Button>
         </div>

@@ -13,7 +13,7 @@ export function Hero() {
         <img 
           src={bgTexture} 
           alt="Background Texture" 
-          className="w-full h-full object-cover opacity-40 mix-blend-overlay"
+          className="w-full h-full object-cover opacity-10 mix-blend-multiply"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
       </div>
@@ -28,7 +28,7 @@ export function Hero() {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="flex flex-col items-center lg:items-start text-center lg:text-left"
           >
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-primary mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/5 border border-black/10 text-xs font-mono text-primary mb-6">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
@@ -36,9 +36,9 @@ export function Hero() {
               Accepting New Projects
             </div>
 
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold leading-[1.1] mb-6 tracking-tight">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold leading-[1.1] mb-6 tracking-tight text-black">
               Build Your Website <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-white/50">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-black via-zinc-800 to-zinc-500">
                 Before You Build It
               </span>
             </h1>
@@ -49,11 +49,11 @@ export function Hero() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto bg-primary text-black hover:bg-primary/90 rounded-full h-12 px-8 text-base font-semibold transition-all">
+              <Button size="lg" className="w-full sm:w-auto bg-black text-white hover:bg-zinc-800 rounded-full h-12 px-8 text-base font-semibold transition-all">
                 Choose Website Type
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
-              <Button size="lg" variant="outline" className="w-full sm:w-auto h-12 px-8 rounded-full border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 text-white backdrop-blur-sm">
+              <Button size="lg" variant="outline" className="w-full sm:w-auto h-12 px-8 rounded-full border-black/10 bg-black/5 hover:bg-black/10 hover:border-black/20 text-black backdrop-blur-sm">
                 View Live Prototypes
               </Button>
             </div>
@@ -61,12 +61,12 @@ export function Hero() {
             {/* Tech Stack Icons */}
             <div className="mt-12 flex items-center gap-6 text-muted-foreground/50">
               <span className="text-xs font-mono uppercase tracking-widest">Powered By</span>
-              <div className="h-px w-12 bg-white/10" />
+              <div className="h-px w-12 bg-black/10" />
               <div className="flex gap-4">
-                <Terminal className="w-5 h-5 hover:text-white transition-colors" />
-                <Layout className="w-5 h-5 hover:text-white transition-colors" />
-                <Database className="w-5 h-5 hover:text-white transition-colors" />
-                <Smartphone className="w-5 h-5 hover:text-white transition-colors" />
+                <Terminal className="w-5 h-5 hover:text-black transition-colors" />
+                <Layout className="w-5 h-5 hover:text-black transition-colors" />
+                <Database className="w-5 h-5 hover:text-black transition-colors" />
+                <Smartphone className="w-5 h-5 hover:text-black transition-colors" />
               </div>
             </div>
           </motion.div>
@@ -79,12 +79,12 @@ export function Hero() {
             className="relative"
           >
             {/* Ambient Highlights (Muted) */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-white/5 blur-[120px] rounded-full z-[-1]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-black/5 blur-[120px] rounded-full z-[-1]" />
             
             <img 
               src={heroImage} 
               alt="3D Laptop Developer Setup" 
-              className="w-full h-auto object-contain drop-shadow-2xl relative z-10 animate-float"
+              className="w-full h-auto object-contain drop-shadow-2xl relative z-10 animate-float mix-blend-multiply"
               style={{ animation: 'float 6s ease-in-out infinite' }}
             />
 
@@ -95,9 +95,9 @@ export function Hero() {
                 <div className="w-3 h-3 rounded-full bg-yellow-500" />
                 <div className="w-3 h-3 rounded-full bg-green-500" />
               </div>
-              <div className="space-y-2 font-mono text-xs text-white/70">
-                <div className="flex"><span className="text-purple-400">const</span> <span className="text-blue-400 ml-2">app</span> = <span className="text-yellow-300 ml-2">init()</span>;</div>
-                <div className="flex"><span className="text-blue-400">app</span>.<span className="text-yellow-300">deploy</span>(<span className="text-green-400">"prod"</span>);</div>
+              <div className="space-y-2 font-mono text-xs text-black/70">
+                <div className="flex"><span className="text-purple-600">const</span> <span className="text-blue-600 ml-2">app</span> = <span className="text-amber-600 ml-2">init()</span>;</div>
+                <div className="flex"><span className="text-blue-600">app</span>.<span className="text-amber-600">deploy</span>(<span className="text-emerald-600">"prod"</span>);</div>
               </div>
             </div>
           </motion.div>

@@ -41,7 +41,7 @@ export default function Home() {
         {/* Services Section */}
         <section id="services" className="py-32 container mx-auto px-4 relative z-10">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-black">
               Select Your <span className="text-primary">Experience</span>
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
@@ -53,11 +53,11 @@ export default function Home() {
             {services.map((service, index) => (
               <div 
                 key={index}
-                className="group relative p-1 rounded-2xl bg-gradient-to-b from-white/10 to-transparent hover:from-primary/50 transition-all duration-300"
+                className="group relative p-1 rounded-2xl bg-gradient-to-b from-black/5 to-transparent hover:from-primary/20 transition-all duration-300"
               >
                 <div 
                   className={cn(
-                    "absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-xl rounded-2xl pointer-events-none",
+                    "absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-10 transition-opacity duration-500 blur-xl rounded-2xl pointer-events-none",
                     service.color
                   )}
                 />
@@ -68,7 +68,7 @@ export default function Home() {
                   </div>
                   
                   <div>
-                    <h3 className="text-xl font-bold mb-2">{service.title}</h3>
+                    <h3 className="text-xl font-bold mb-2 text-black">{service.title}</h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">
                       {service.description}
                     </p>
@@ -80,15 +80,15 @@ export default function Home() {
         </section>
 
         {/* Footer */}
-        <footer className="border-t border-white/5 py-12 bg-black/20">
+        <footer className="border-t border-black/5 py-12 bg-zinc-50">
           <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="text-sm text-muted-foreground">
-              © 2024 DevStudio. All rights reserved.
+              © 2024 StackWeb. All rights reserved.
             </div>
             <div className="flex gap-6 text-sm text-muted-foreground">
-              <a href="#" className="hover:text-white transition-colors">Twitter</a>
-              <a href="#" className="hover:text-white transition-colors">GitHub</a>
-              <a href="#" className="hover:text-white transition-colors">Dribbble</a>
+              <a href="#" className="hover:text-black transition-colors">Twitter</a>
+              <a href="#" className="hover:text-black transition-colors">GitHub</a>
+              <a href="#" className="hover:text-black transition-colors">Dribbble</a>
             </div>
           </div>
         </footer>

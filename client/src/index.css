@@ -47,34 +47,34 @@
 }
 
 :root {
-  /* Professional Muted Palette */
-  --background: 240 10% 4%; 
-  --foreground: 0 0% 98%;
+  /* Clean Light Theme */
+  --background: 0 0% 100%; /* Pure White */
+  --foreground: 240 10% 4%; /* Near Black */
 
-  --card: 240 10% 6%;
-  --card-foreground: 0 0% 98%;
+  --card: 0 0% 98%;
+  --card-foreground: 240 10% 4%;
 
-  --popover: 240 10% 6%;
-  --popover-foreground: 0 0% 98%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 4%;
 
-  --primary: 215 25% 65%; /* Muted Slate Blue */
-  --primary-foreground: 240 10% 4%;
+  --primary: 215 25% 45%; /* Darker Slate Blue for better contrast on white */
+  --primary-foreground: 0 0% 100%;
 
-  --secondary: 240 6% 15%;
-  --secondary-foreground: 0 0% 98%;
+  --secondary: 240 6% 95%;
+  --secondary-foreground: 240 10% 4%;
 
-  --muted: 240 6% 15%;
-  --muted-foreground: 240 5% 65%;
+  --muted: 240 6% 95%;
+  --muted-foreground: 240 5% 45%;
 
-  --accent: 210 20% 40%; /* Professional Graphite */
-  --accent-foreground: 0 0% 98%;
+  --accent: 210 20% 95%; 
+  --accent-foreground: 240 10% 4%;
 
-  --destructive: 0 62.8% 30.6%;
+  --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 0 0% 98%;
 
-  --border: 240 6% 15%;
-  --input: 240 6% 15%;
-  --ring: 215 25% 65%;
+  --border: 240 6% 90%;
+  --input: 240 6% 90%;
+  --ring: 215 25% 45%;
 }
 
 @layer base {
@@ -94,11 +94,11 @@
     @apply text-foreground;
   }
   .glass {
-    @apply bg-white/5 backdrop-blur-md border border-white/10;
+    @apply bg-white/70 backdrop-blur-md border border-black/5;
   }
   .glass-card {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0) 100%);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.05);
   }
 }
