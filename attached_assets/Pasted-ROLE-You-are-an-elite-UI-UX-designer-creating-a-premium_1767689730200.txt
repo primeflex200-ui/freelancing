@@ -1,0 +1,97 @@
+ROLE:
+You are an elite UI/UX designer creating a premium website design for a full-stack web developer freelance platform.
+
+DESIGN OBJECTIVE:
+Design a visually stunning, modern, and professional website interface that clearly communicates:
+• Full-stack web development expertise
+• Freelance / agency-level services
+• Advanced technology & trust
+• Premium quality UI/UX
+
+TARGET AUDIENCE:
+Startup founders, business owners, creators, and gamers who want high-quality websites.
+
+DESIGN STYLE:
+• Ultra-modern
+• Clean but powerful
+• Developer-centric
+• Minimal with depth
+• Emergent UI feel
+• SaaS / Agency quality (Apple, Vercel, Linear inspired)
+
+COLOR & THEME:
+• Primary: Deep black / charcoal
+• Secondary: White / soft gray
+• Accent: Neon blue / cyan / purple (very subtle)
+• No bright random colors
+• High contrast, elegant
+
+HERO SECTION (MOST IMPORTANT):
+• Center or right-aligned realistic 3D laptop / MacBook
+• Laptop screen displaying:
+  – Code editor (VS Code-style)
+  – Website UI preview
+  – Terminal window
+• Floating elements around the laptop:
+  – Code snippets
+  – Browser tabs
+  – API icons
+  – UI cards
+• Soft glow, depth, reflections
+• Professional, futuristic look
+
+BACKGROUND:
+• Clean gradient or solid background
+• Very subtle noise / grain texture
+• Light tech grid or abstract shapes
+• No clutter
+
+TEXT CONTENT (VISUAL PLACEMENT ONLY):
+• Headline:
+  “Build Your Website Before You Build It”
+• Subtext:
+  “Preview, customize, and launch premium websites with confidence.”
+• Primary CTA button:
+  “Choose Website Type”
+• Secondary CTA:
+  “View Live Prototypes”
+
+VISUAL ELEMENTS:
+• Web technology icons (HTML, CSS, JavaScript, React, API, Database)
+• Minimal line icons
+• Floating website category cards:
+  – Professional
+  – Gaming
+  – Food
+  – E-commerce
+• Depth layering and soft shadows
+
+UI / UX DETAILS:
+• Strong visual hierarchy
+• Large bold headline
+• Clean readable typography
+• Generous spacing
+• Rounded corners
+• Subtle hover and motion cues (visual only)
+
+TYPOGRAPHY:
+• Modern sans-serif
+• Tech-friendly
+• Bold headline
+• Clean body text
+• No decorative fonts
+
+LAYOUT:
+• Grid-based
+• Balanced text + visuals
+• Responsive-friendly proportions
+• Looks excellent on desktop and mobile
+
+QUALITY BAR:
+• Must look like a real premium SaaS or agency website
+• Not generic
+• Not template-like
+• High-end professional finish
+
+FINAL EXPECTATION:
+Produce a polished, premium UI design for a full-stack web developer freelance website that feels modern, trustworthy, and visually impressive, with a strong 3D tech-focused hero section.
