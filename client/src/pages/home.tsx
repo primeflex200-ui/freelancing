@@ -8,25 +8,25 @@ const services = [
     icon: Monitor,
     title: "Professional",
     description: "Corporate sites, portfolios, and landing pages that convert.",
-    color: "from-blue-500 to-cyan-500"
+    color: "from-slate-500 to-slate-400"
   },
   {
     icon: Gamepad2,
     title: "Gaming",
     description: "Immersive experiences for studios, streamers, and esports.",
-    color: "from-purple-500 to-pink-500"
+    color: "from-gray-500 to-gray-400"
   },
   {
     icon: Rocket,
     title: "Startups",
     description: "MVP development and scalable SaaS platforms.",
-    color: "from-orange-500 to-red-500"
+    color: "from-zinc-500 to-zinc-400"
   },
   {
     icon: Code,
     title: "API & Backend",
     description: "Robust server-side architecture and database design.",
-    color: "from-green-500 to-emerald-500"
+    color: "from-slate-600 to-slate-500"
   }
 ];
 

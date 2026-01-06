@@ -49,7 +49,7 @@ export function Hero() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto bg-primary text-black hover:bg-primary/90 rounded-full h-12 px-8 text-base font-semibold shadow-[0_0_20px_rgba(6,182,212,0.3)] transition-all hover:shadow-[0_0_30px_rgba(6,182,212,0.5)]">
+              <Button size="lg" className="w-full sm:w-auto bg-primary text-black hover:bg-primary/90 rounded-full h-12 px-8 text-base font-semibold transition-all">
                 Choose Website Type
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
@@ -78,9 +78,8 @@ export function Hero() {
             transition={{ duration: 1, delay: 0.2 }}
             className="relative"
           >
-            {/* Ambient Glows */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-primary/20 blur-[120px] rounded-full z-[-1]" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-accent/10 blur-[80px] rounded-full z-[-1]" />
+            {/* Ambient Highlights (Muted) */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-white/5 blur-[120px] rounded-full z-[-1]" />
             
             <img 
               src={heroImage} 

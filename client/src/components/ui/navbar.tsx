@@ -14,7 +14,7 @@ export function Navbar() {
               <Code2 className="w-6 h-6 text-primary" />
             </div>
             <span className="font-display font-bold text-xl tracking-tight text-white">
-              DevStudio
+              StackWeb
             </span>
           </div>
         </Link>
