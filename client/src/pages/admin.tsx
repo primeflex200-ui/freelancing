@@ -168,10 +168,10 @@ export default function Admin() {
                     <div className="flex flex-wrap gap-2">
                       {project.communicationMethods.split(", ").map((method, idx) => (
                         <span key={idx} className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full capitalize">
-                          {method === "admin" ? "🔐 Admin Panel" : 
-                           method === "gmail" ? "📧 Gmail" : 
-                           method === "whatsapp" ? "💬 WhatsApp" : 
-                           "📱 SMS Message"}
+                          {method === "admin" ? "Admin Panel" : 
+                           method === "gmail" ? "Gmail" : 
+                           method === "whatsapp" ? "WhatsApp" : 
+                           "SMS Message"}
                         </span>
                       ))}
                     </div>

@@ -218,10 +218,10 @@ export default function StartProject() {
                       </label>
                       <div className="grid md:grid-cols-2 gap-3">
                         {[
-                          { id: "admin", label: "Admin Panel", icon: "🔐" },
-                          { id: "gmail", label: "Gmail", icon: "📧" },
-                          { id: "whatsapp", label: "WhatsApp", icon: "💬" },
-                          { id: "message", label: "SMS Message", icon: "📱" }
+                          { id: "admin", label: "Admin Panel" },
+                          { id: "gmail", label: "Gmail" },
+                          { id: "whatsapp", label: "WhatsApp" },
+                          { id: "message", label: "SMS Message" }
                         ].map((method) => (
                           <button
                             key={method.id}
@@ -238,10 +238,7 @@ export default function StartProject() {
                                 : 'border-black/10 hover:border-black/20'
                             }`}
                           >
-                            <div className="flex items-center gap-3">
-                              <span className="text-2xl">{method.icon}</span>
-                              <span className="font-semibold text-black">{method.label}</span>
-                            </div>
+                            <span className="font-semibold text-black">{method.label}</span>
                           </button>
                         ))}
                       </div>
