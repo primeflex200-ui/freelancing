@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Terminal, Layout, Database, Smartphone } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
+import ShinyText from "@/components/ui/ShinyText";
 import heroImage1 from "@assets/generated_images/3d_macbook_floating_with_code_snippets_and_neon_glow.png";
 import heroImage2 from "@assets/generated_images/professional_dark_macbook_with_slate_gray_accents.png";
 import heroImage3 from "@assets/generated_images/web_upload_1.jpeg";
@@ -59,7 +60,15 @@ export function Hero() {
             </div>
 
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold leading-[1.1] mb-6 tracking-tight text-black">
-              Build Your Website <br />
+              <ShinyText
+                text="Build Your Website"
+                speed={3}
+                color="#000000"
+                shineColor="#6366f1"
+                spread={100}
+                direction="left"
+              />
+              <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-black via-zinc-800 to-zinc-500">
                 Before You Build It
               </span>
