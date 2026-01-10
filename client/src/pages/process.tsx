@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
 import { useRef } from "react";
 import VariableProximity from "@/components/ui/VariableProximity";
+import { LiquidEffectAnimation } from "@/components/ui/liquid-effect-animation";
 
 const processSteps = [
   {
@@ -101,6 +102,29 @@ export default function Process() {
                   </div>
                   <p className="text-sm text-muted-foreground mt-2">
                     Most projects are completed even faster, depending on complexity and requirements.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Liquid Effect Animation Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-6xl mx-auto mb-20"
+          >
+            <div className="relative h-[500px] rounded-2xl overflow-hidden glass">
+              <LiquidEffectAnimation />
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                <div className="text-center text-white z-10">
+                  <h2 className="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">
+                    Fluid Development Process
+                  </h2>
+                  <p className="text-xl drop-shadow-lg">
+                    Seamless, adaptive, and always in motion
                   </p>
                 </div>
               </div>
