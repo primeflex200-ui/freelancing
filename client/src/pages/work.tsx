@@ -1,10 +1,14 @@
 import { Navbar } from "@/components/ui/navbar";
 import { motion } from "framer-motion";
 import { Lock, ArrowRight } from "lucide-react";
+import { useRef } from "react";
+import VariableProximity from "@/components/ui/VariableProximity";
 
 export default function Work() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background text-foreground" ref={containerRef}>
       <Navbar />
       
       <main className="pt-32 pb-20">
@@ -17,7 +21,16 @@ export default function Work() {
             className="text-center mb-20"
           >
             <h1 className="text-5xl md:text-6xl font-display font-bold mb-6 text-black">
-              Our <span className="text-primary">Work</span>
+              Our{" "}
+              <VariableProximity
+                label="Work"
+                fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                toFontVariationSettings="'wght' 900, 'opsz' 40"
+                containerRef={containerRef}
+                radius={150}
+                falloff="linear"
+                className="text-primary"
+              />
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Explore our portfolio of successful projects across various industries.

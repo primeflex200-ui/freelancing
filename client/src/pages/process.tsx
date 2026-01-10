@@ -1,6 +1,8 @@
 import { Navbar } from "@/components/ui/navbar";
 import { motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
+import { useRef } from "react";
+import VariableProximity from "@/components/ui/VariableProximity";
 
 const processSteps = [
   {
@@ -31,6 +33,8 @@ const processSteps = [
 ];
 
 export default function Process() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -38,6 +42,7 @@ export default function Process() {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
       className="min-h-screen bg-background text-foreground"
+      ref={containerRef}
     >
       <Navbar />
       
@@ -51,7 +56,16 @@ export default function Process() {
             className="text-center mb-20"
           >
             <h1 className="text-5xl md:text-6xl font-display font-bold mb-6 text-black">
-              Our <span className="text-primary">Process</span>
+              Our{" "}
+              <VariableProximity
+                label="Process"
+                fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                toFontVariationSettings="'wght' 900, 'opsz' 40"
+                containerRef={containerRef}
+                radius={150}
+                falloff="linear"
+                className="text-primary"
+              />
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               A proven methodology that delivers exceptional results, every time.
