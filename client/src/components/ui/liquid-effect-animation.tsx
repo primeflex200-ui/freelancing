@@ -18,10 +18,18 @@ export function LiquidEffectAnimation() {
       if (canvas) {
         const app = LiquidBackground(canvas);
         app.loadImage('https://images.unsplash.com/photo-1557683316-973673baf926?w=1200&h=800&fit=crop');
-        app.liquidPlane.material.metalness = 0.75;
-        app.liquidPlane.material.roughness = 0.25;
-        app.liquidPlane.uniforms.displacementScale.value = 5;
+        
+        // Optimize for performance
+        app.liquidPlane.material.metalness = 0.6;
+        app.liquidPlane.material.roughness = 0.3;
+        app.liquidPlane.uniforms.displacementScale.value = 3;
         app.setRain(false);
+        
+        // Reduce animation intensity for smoother performance
+        if (app.liquidPlane.uniforms.speed) {
+          app.liquidPlane.uniforms.speed.value = 0.5;
+        }
+        
         window.__liquidApp = app;
       }
     `
@@ -31,7 +39,9 @@ export function LiquidEffectAnimation() {
       if (window.__liquidApp && window.__liquidApp.dispose) {
         window.__liquidApp.dispose()
       }
-      document.body.removeChild(script)
+      if (document.body.contains(script)) {
+        document.body.removeChild(script)
+      }
     }
   }, [])
 
@@ -40,7 +50,11 @@ export function LiquidEffectAnimation() {
       ref={canvasRef}
       id="liquid-canvas"
       className="w-full h-full"
-      style={{ display: 'block' }}
+      style={{ 
+        display: 'block',
+        willChange: 'transform',
+        transform: 'translateZ(0)'
+      }}
     />
   )
 }

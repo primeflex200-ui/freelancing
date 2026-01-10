@@ -42,19 +42,19 @@ export default function Process() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="min-h-screen bg-background text-foreground relative"
+      className="min-h-screen bg-background text-foreground relative overflow-x-hidden"
       ref={containerRef}
     >
-      {/* Liquid Effect Background */}
-      <div className="fixed inset-0 z-0">
+      {/* Liquid Effect Background - Fixed and optimized */}
+      <div className="fixed inset-0 z-0" style={{ willChange: 'transform' }}>
         <LiquidEffectAnimation />
       </div>
 
       {/* Dark overlay for better text readability */}
-      <div className="fixed inset-0 z-0 bg-black/40" />
+      <div className="fixed inset-0 z-0 bg-black/50 pointer-events-none" />
 
-      {/* Content */}
-      <div className="relative z-10">
+      {/* Content - Optimized for smooth scrolling */}
+      <div className="relative z-10" style={{ transform: 'translateZ(0)' }}>
         <Navbar />
         
         <main className="pt-32 pb-20">
@@ -68,15 +68,7 @@ export default function Process() {
             >
               <h1 className="text-5xl md:text-6xl font-display font-bold mb-6 text-white drop-shadow-lg">
                 Our{" "}
-                <VariableProximity
-                  label="Process"
-                  fromFontVariationSettings="'wght' 400, 'opsz' 9"
-                  toFontVariationSettings="'wght' 900, 'opsz' 40"
-                  containerRef={containerRef}
-                  radius={150}
-                  falloff="linear"
-                  className="text-primary"
-                />
+                <span className="text-primary">Process</span>
               </h1>
               <p className="text-xl text-white/90 max-w-3xl mx-auto drop-shadow-md">
                 A proven methodology that delivers exceptional results, every time.
@@ -87,11 +79,11 @@ export default function Process() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6 }}
               className="max-w-4xl mx-auto mb-16"
             >
-              <div className="glass p-8 rounded-2xl border-2 border-white/20 bg-white/10 backdrop-blur-xl">
+              <div className="p-8 rounded-2xl border-2 border-white/20 bg-white/10 backdrop-blur-md shadow-xl">
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0">
                     <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
@@ -125,8 +117,8 @@ export default function Process() {
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.5, delay: index * 0.05 }}
                   className="relative"
                 >
                   <div className="flex gap-8 items-start">
@@ -138,7 +130,7 @@ export default function Process() {
                     </div>
 
                     {/* Content */}
-                    <div className="flex-1 glass p-8 rounded-xl bg-white/10 backdrop-blur-xl border border-white/20">
+                    <div className="flex-1 p-8 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 shadow-xl">
                       <h3 className="text-2xl font-bold text-white mb-4 drop-shadow-md">{step.title}</h3>
                       <p className="text-white/90 leading-relaxed">
                         {step.description}
@@ -158,7 +150,7 @@ export default function Process() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-100px" }}
               className="text-center mt-20"
             >
               <a
