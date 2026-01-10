@@ -6,7 +6,7 @@ import CircularGallery from "@/components/ui/CircularGallery";
 
 const projects = [
   {
-    image: "/attached_assets/generated_images/professional_dark_macbook_with_slate_gray_accents.png",
+    image: "/attached_assets/proff_icons.jpg",
     text: "Professional"
   },
   {
