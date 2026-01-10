@@ -2,6 +2,8 @@ import { Navbar } from "@/components/ui/navbar";
 import { Hero } from "@/components/ui/hero";
 import { Code, Monitor, Rocket, Gamepad2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import SplitText from "@/components/ui/split-text";
+import { motion } from "framer-motion";
 
 const services = [
   {
@@ -32,28 +34,91 @@ const services = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+      className="min-h-screen bg-background text-foreground overflow-x-hidden"
+    >
       <Navbar />
       
       <main>
         <Hero />
         
         {/* Services Section */}
-        <section id="services" className="py-32 container mx-auto px-4 relative z-10">
-          <div className="text-center mb-16">
+        <section id="services" className="py-32 container mx-auto px-4 relative z-10 scroll-mt-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
             <h2 className="text-3xl md:text-4xl font-display font-bold mb-4 text-black">
-              Select Your <span className="text-primary">Experience</span>
+              <SplitText
+                text="Select Your "
+                tag="span"
+                delay={25}
+                duration={0.5}
+                ease="power3.out"
+                splitType="chars"
+                from={{ opacity: 0, y: 15 }}
+                to={{ opacity: 1, y: 0 }}
+                threshold={0.5}
+                rootMargin="-50px"
+                textAlign="center"
+              />
+              <span className="text-primary">
+                <SplitText
+                  text="Experience"
+                  tag="span"
+                  delay={25}
+                  duration={0.5}
+                  ease="power3.out"
+                  splitType="chars"
+                  from={{ opacity: 0, y: 15 }}
+                  to={{ opacity: 1, y: 0 }}
+                  threshold={0.5}
+                  rootMargin="-50px"
+                  textAlign="center"
+                />
+              </span>
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Tailored development solutions for every industry. We build pixel-perfect interfaces backed by robust code.
+              <SplitText
+                text="Tailored development solutions for every industry. We build pixel-perfect interfaces backed by robust code."
+                tag="span"
+                delay={10}
+                duration={0.4}
+                ease="power2.out"
+                splitType="words"
+                from={{ opacity: 0, y: 10 }}
+                to={{ opacity: 1, y: 0 }}
+                threshold={0.5}
+                rootMargin="-50px"
+                textAlign="center"
+              />
             </p>
-          </div>
+          </motion.div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
+          >
             {services.map((service, index) => (
-              <div 
+              <motion.a
                 key={index}
-                className="group relative p-1 rounded-2xl bg-gradient-to-b from-black/5 to-transparent hover:from-primary/20 transition-all duration-300"
+                href={`/start-project?type=${service.title.toLowerCase()}`}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -8, transition: { duration: 0.2 } }}
+                className="group relative p-1 rounded-2xl bg-gradient-to-b from-black/5 to-transparent hover:from-primary/20 transition-all duration-300 cursor-pointer"
               >
                 <div 
                   className={cn(
@@ -68,19 +133,51 @@ export default function Home() {
                   </div>
                   
                   <div>
-                    <h3 className="text-xl font-bold mb-2 text-black">{service.title}</h3>
+                    <h3 className="text-xl font-bold mb-2 text-black">
+                      <SplitText
+                        text={service.title}
+                        tag="span"
+                        delay={20}
+                        duration={0.4}
+                        ease="power2.out"
+                        splitType="chars"
+                        from={{ opacity: 0, y: 10 }}
+                        to={{ opacity: 1, y: 0 }}
+                        threshold={0.3}
+                        rootMargin="-80px"
+                        textAlign="left"
+                      />
+                    </h3>
                     <p className="text-sm text-muted-foreground leading-relaxed">
-                      {service.description}
+                      <SplitText
+                        text={service.description}
+                        tag="span"
+                        delay={8}
+                        duration={0.3}
+                        ease="power2.out"
+                        splitType="words"
+                        from={{ opacity: 0, y: 5 }}
+                        to={{ opacity: 1, y: 0 }}
+                        threshold={0.3}
+                        rootMargin="-80px"
+                        textAlign="left"
+                      />
                     </p>
                   </div>
                 </div>
-              </div>
+              </motion.a>
             ))}
-          </div>
+          </motion.div>
         </section>
 
         {/* Footer */}
-        <footer className="border-t border-black/5 py-12 bg-zinc-50">
+        <motion.footer 
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="border-t border-black/5 py-12 bg-zinc-50"
+        >
           <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="text-sm text-muted-foreground">
               © 2024 StackWeb. All rights reserved.
@@ -91,8 +188,8 @@ export default function Home() {
               <a href="#" className="hover:text-black transition-colors">Dribbble</a>
             </div>
           </div>
-        </footer>
+        </motion.footer>
       </main>
-    </div>
+    </motion.div>
   );
 }

@@ -1,10 +1,31 @@
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, Terminal, Layout, Database, Smartphone } from "lucide-react";
-import heroImage from "@assets/generated_images/3d_macbook_floating_with_code_snippets_and_neon_glow.png";
+import { useState, useEffect } from "react";
+import heroImage1 from "@assets/generated_images/3d_macbook_floating_with_code_snippets_and_neon_glow.png";
+import heroImage2 from "@assets/generated_images/professional_dark_macbook_with_slate_gray_accents.png";
+import heroImage3 from "@assets/generated_images/web_upload_1.jpeg";
+import heroImage4 from "@assets/generated_images/web_upload_2.png";
 import bgTexture from "@assets/generated_images/subtle_dark_tech_grid_background.png";
 
 export function Hero() {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  // 4 unique images rotating
+  const images = [
+    heroImage1, 
+    heroImage2, 
+    heroImage3, 
+    heroImage4
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    }, 10000); // Change every 10 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-32 pb-20 overflow-hidden">
       
@@ -13,7 +34,8 @@ export function Hero() {
         <img 
           src={bgTexture} 
           alt="Background Texture" 
-          className="w-full h-full object-cover opacity-10 mix-blend-multiply"
+          className="w-full h-full object-cover opacity-10 mix-blend-multiply pointer-events-none select-none"
+          draggable="false"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
       </div>
@@ -49,12 +71,26 @@ export function Hero() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
-              <Button size="lg" className="w-full sm:w-auto bg-black text-white hover:bg-zinc-800 rounded-full h-12 px-8 text-base font-semibold transition-all">
+              <Button 
+                size="lg" 
+                className="w-full sm:w-auto bg-black text-white hover:bg-zinc-800 rounded-full h-12 px-8 text-base font-semibold transition-all"
+                onClick={() => {
+                  const servicesSection = document.getElementById('services');
+                  if (servicesSection) {
+                    servicesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }
+                }}
+              >
                 Choose Website Type
                 <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
-              <Button size="lg" variant="outline" className="w-full sm:w-auto h-12 px-8 rounded-full border-black/10 bg-black/5 hover:bg-black/10 hover:border-black/20 text-black backdrop-blur-sm">
-                View Live Prototypes
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="w-full sm:w-auto h-12 px-8 rounded-full border-black/10 bg-black/5 hover:bg-black/10 hover:border-black/20 text-black backdrop-blur-sm"
+                asChild
+              >
+                <a href="/work">View Live Prototypes</a>
               </Button>
             </div>
 
@@ -71,34 +107,71 @@ export function Hero() {
             </div>
           </motion.div>
 
-          {/* Right Visual - 3D Laptop */}
+          {/* Right Visual - 3D Laptop with Rotating Images */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.2 }}
             className="relative"
+            style={{ perspective: "2000px", perspectiveOrigin: "center center" }}
           >
             {/* Ambient Highlights (Muted) */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-black/5 blur-[120px] rounded-full z-[-1]" />
             
-            <img 
-              src={heroImage} 
-              alt="3D Laptop Developer Setup" 
-              className="w-full h-auto object-contain drop-shadow-2xl relative z-10 animate-float mix-blend-multiply"
-              style={{ animation: 'float 6s ease-in-out infinite' }}
-            />
-
-            {/* Floating Elements (Decorative CSS overlays) */}
-            <div className="absolute -top-10 -right-10 glass p-4 rounded-xl hidden lg:block animate-float-delayed">
-              <div className="flex gap-2 mb-2">
-                <div className="w-3 h-3 rounded-full bg-red-500" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                <div className="w-3 h-3 rounded-full bg-green-500" />
-              </div>
-              <div className="space-y-2 font-mono text-xs text-black/70">
-                <div className="flex"><span className="text-purple-600">const</span> <span className="text-blue-600 ml-2">app</span> = <span className="text-amber-600 ml-2">init()</span>;</div>
-                <div className="flex"><span className="text-blue-600">app</span>.<span className="text-amber-600">deploy</span>(<span className="text-emerald-600">"prod"</span>);</div>
-              </div>
+            {/* Rotating Images with Enhanced 3D Flip Effect */}
+            <div className="relative w-full h-auto" style={{ transformStyle: "preserve-3d" }}>
+              <AnimatePresence mode="wait">
+                <motion.img
+                  key={currentImageIndex}
+                  src={images[currentImageIndex]}
+                  alt="3D Laptop Developer Setup"
+                  className="w-full h-auto object-contain drop-shadow-2xl relative z-10 mix-blend-multiply pointer-events-none select-none"
+                  draggable="false"
+                  initial={{ 
+                    opacity: 0,
+                    rotateY: 180,
+                    rotateX: 15,
+                    scale: 0.6,
+                    z: -400,
+                    x: 100
+                  }}
+                  animate={{ 
+                    opacity: 1,
+                    rotateY: 0,
+                    rotateX: 0,
+                    scale: 1,
+                    z: 0,
+                    x: 0,
+                    y: [0, -20, 0]
+                  }}
+                  exit={{ 
+                    opacity: 0,
+                    rotateY: -180,
+                    rotateX: -15,
+                    scale: 0.6,
+                    z: -400,
+                    x: -100
+                  }}
+                  transition={{ 
+                    opacity: { duration: 0.7 },
+                    rotateY: { duration: 1, ease: [0.43, 0.13, 0.23, 0.96] },
+                    rotateX: { duration: 1, ease: [0.43, 0.13, 0.23, 0.96] },
+                    scale: { duration: 1, ease: [0.43, 0.13, 0.23, 0.96] },
+                    z: { duration: 1, ease: [0.43, 0.13, 0.23, 0.96] },
+                    x: { duration: 1, ease: [0.43, 0.13, 0.23, 0.96] },
+                    y: { 
+                      duration: 6, 
+                      repeat: Infinity, 
+                      ease: "easeInOut" 
+                    }
+                  }}
+                  style={{ 
+                    transformStyle: "preserve-3d",
+                    backfaceVisibility: "hidden",
+                    WebkitBackfaceVisibility: "hidden"
+                  }}
+                />
+              </AnimatePresence>
             </div>
           </motion.div>
         </div>
