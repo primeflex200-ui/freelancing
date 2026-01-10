@@ -1,6 +1,8 @@
 import { Navbar } from "@/components/ui/navbar";
 import { motion } from "framer-motion";
 import { Zap, Target, Shield, Code2 } from "lucide-react";
+import { useRef } from "react";
+import VariableProximity from "@/components/ui/VariableProximity";
 
 const values = [
   {
@@ -26,6 +28,8 @@ const values = [
 ];
 
 export default function About() {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -33,6 +37,7 @@ export default function About() {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
       className="min-h-screen bg-background text-foreground"
+      ref={containerRef}
     >
       <Navbar />
       
@@ -46,7 +51,16 @@ export default function About() {
             className="text-center mb-16"
           >
             <h1 className="text-5xl md:text-6xl font-display font-bold mb-6 text-black">
-              About <span className="text-primary">StackWeb</span>
+              About{" "}
+              <VariableProximity
+                label="StackWeb"
+                fromFontVariationSettings="'wght' 400, 'opsz' 9"
+                toFontVariationSettings="'wght' 900, 'opsz' 40"
+                containerRef={containerRef}
+                radius={150}
+                falloff="linear"
+                className="text-primary"
+              />
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
               Building modern, high-performance websites for businesses, startups, and digital creators
