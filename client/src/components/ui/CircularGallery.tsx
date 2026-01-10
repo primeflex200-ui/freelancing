@@ -566,16 +566,28 @@ export default function CircularGallery({
       const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
       
       // Only trigger click if movement was less than 10 pixels (not a drag)
-      if (distance < 10 && onItemClick && items) {
+      if (distance < 10 && onItemClick && items && app.medias && app.medias.length > 0) {
         const rect = containerRef.current?.getBoundingClientRect();
         if (rect) {
           const x = e.clientX - rect.left;
           const centerX = rect.width / 2;
-          const clickThreshold = 200;
+          const clickThreshold = 250;
           
           if (Math.abs(x - centerX) < clickThreshold) {
-            const currentIndex = Math.round(Math.abs(app.scroll.current) / (app.medias[0]?.width || 1)) % items.length;
-            onItemClick(currentIndex, items[currentIndex]);
+            // Find which media item is closest to center (x position closest to 0)
+            let closestIndex = 0;
+            let minDistance = Infinity;
+            
+            app.medias.forEach((media: any, idx: number) => {
+              const mediaX = media.plane.position.x;
+              const distanceFromCenter = Math.abs(mediaX);
+              if (distanceFromCenter < minDistance) {
+                minDistance = distanceFromCenter;
+                closestIndex = idx;
+              }
+            });
+            
+            onItemClick(closestIndex, items[closestIndex]);
           }
         }
       }
