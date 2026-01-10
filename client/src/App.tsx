@@ -14,6 +14,10 @@ import Login from "@/pages/login";
 import StartProject from "@/pages/start-project";
 import ProjectSubmitted from "@/pages/project-submitted";
 import Admin from "@/pages/admin";
+import Professional from "@/pages/professional";
+import Gaming from "@/pages/gaming";
+import Startups from "@/pages/startups";
+import ApiBackends from "@/pages/api-backends";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -23,6 +27,10 @@ function Router() {
         <Route path="/" component={Home} />
         <Route path="/process" component={Process} />
         <Route path="/work" component={Work} />
+        <Route path="/work/professional" component={Professional} />
+        <Route path="/work/gaming" component={Gaming} />
+        <Route path="/work/startups" component={Startups} />
+        <Route path="/work/api-backends" component={ApiBackends} />
         <Route path="/about" component={About} />
         <Route path="/login" component={Login} />
         <Route path="/start-project" component={StartProject} />

@@ -521,13 +521,14 @@ class App {
 }
 
 interface CircularGalleryProps {
-  items?: Array<{ image: string; text: string }>;
+  items?: Array<{ image: string; text: string; link?: string }>;
   bend?: number;
   textColor?: string;
   borderRadius?: number;
   font?: string;
   scrollSpeed?: number;
   scrollEase?: number;
+  onItemClick?: (index: number, item: any) => void;
 }
 
 export default function CircularGallery({
@@ -537,17 +538,45 @@ export default function CircularGallery({
   borderRadius = 0.05,
   font = 'bold 30px Figtree',
   scrollSpeed = 2,
-  scrollEase = 0.05
+  scrollEase = 0.05,
+  onItemClick
 }: CircularGalleryProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
     const app = new App(containerRef.current, { items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase });
+    
+    // Add click handler to canvas
+    const handleCanvasClick = (e: MouseEvent) => {
+      if (onItemClick && items) {
+        // Simple click detection - you can enhance this based on your needs
+        const rect = containerRef.current?.getBoundingClientRect();
+        if (rect) {
+          const x = e.clientX - rect.left;
+          const centerX = rect.width / 2;
+          const clickThreshold = 200; // pixels from center
+          
+          if (Math.abs(x - centerX) < clickThreshold) {
+            // Clicked on center item - determine which one
+            const currentIndex = Math.round(Math.abs(app.scroll.current) / (app.medias[0]?.width || 1)) % items.length;
+            onItemClick(currentIndex, items[currentIndex]);
+          }
+        }
+      }
+    };
+    
+    if (containerRef.current) {
+      containerRef.current.addEventListener('click', handleCanvasClick);
+    }
+    
     return () => {
+      if (containerRef.current) {
+        containerRef.current.removeEventListener('click', handleCanvasClick);
+      }
       app.destroy();
     };
-  }, [items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase]);
+  }, [items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase, onItemClick]);
 
   return <div className="circular-gallery" ref={containerRef} />;
 }
