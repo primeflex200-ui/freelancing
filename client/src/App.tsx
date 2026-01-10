@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import { AnimatePresence, motion } from "framer-motion";
+import ClickSpark from "@/components/ui/ClickSpark";
 import Home from "@/pages/home";
 import Process from "@/pages/process";
 import Work from "@/pages/work";
@@ -38,14 +39,23 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <SmoothScroll>
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
+          <ClickSpark
+            sparkColor="#6366f1"
+            sparkSize={12}
+            sparkRadius={20}
+            sparkCount={8}
+            duration={500}
+            easing="ease-out"
           >
-            <Toaster />
-            <Router />
-          </motion.div>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Toaster />
+              <Router />
+            </motion.div>
+          </ClickSpark>
         </SmoothScroll>
       </TooltipProvider>
     </QueryClientProvider>
