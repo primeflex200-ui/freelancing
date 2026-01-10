@@ -93,18 +93,6 @@ export function Hero() {
                 <a href="/work">View Live Prototypes</a>
               </Button>
             </div>
-
-            {/* Tech Stack Icons */}
-            <div className="mt-12 flex items-center gap-6 text-muted-foreground/50">
-              <span className="text-xs font-mono uppercase tracking-widest">Powered By</span>
-              <div className="h-px w-12 bg-black/10" />
-              <div className="flex gap-4">
-                <Terminal className="w-5 h-5 hover:text-black transition-colors" />
-                <Layout className="w-5 h-5 hover:text-black transition-colors" />
-                <Database className="w-5 h-5 hover:text-black transition-colors" />
-                <Smartphone className="w-5 h-5 hover:text-black transition-colors" />
-              </div>
-            </div>
           </motion.div>
 
           {/* Right Visual - 3D Laptop with Rotating Images */}
