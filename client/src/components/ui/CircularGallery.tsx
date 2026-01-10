@@ -542,37 +542,57 @@ export default function CircularGallery({
   onItemClick
 }: CircularGalleryProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const mouseDownPos = useRef<{ x: number; y: number } | null>(null);
+  const mouseUpPos = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
     const app = new App(containerRef.current, { items, bend, textColor, borderRadius, font, scrollSpeed, scrollEase });
     
-    // Add click handler to canvas
-    const handleCanvasClick = (e: MouseEvent) => {
-      if (onItemClick && items) {
-        // Simple click detection - you can enhance this based on your needs
+    // Track mouse down position
+    const handleMouseDown = (e: MouseEvent) => {
+      mouseDownPos.current = { x: e.clientX, y: e.clientY };
+    };
+    
+    // Handle click only if mouse didn't move much (not a drag)
+    const handleMouseUp = (e: MouseEvent) => {
+      mouseUpPos.current = { x: e.clientX, y: e.clientY };
+      
+      if (!mouseDownPos.current || !mouseUpPos.current) return;
+      
+      // Calculate distance moved
+      const deltaX = Math.abs(mouseUpPos.current.x - mouseDownPos.current.x);
+      const deltaY = Math.abs(mouseUpPos.current.y - mouseDownPos.current.y);
+      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+      
+      // Only trigger click if movement was less than 10 pixels (not a drag)
+      if (distance < 10 && onItemClick && items) {
         const rect = containerRef.current?.getBoundingClientRect();
         if (rect) {
           const x = e.clientX - rect.left;
           const centerX = rect.width / 2;
-          const clickThreshold = 200; // pixels from center
+          const clickThreshold = 200;
           
           if (Math.abs(x - centerX) < clickThreshold) {
-            // Clicked on center item - determine which one
             const currentIndex = Math.round(Math.abs(app.scroll.current) / (app.medias[0]?.width || 1)) % items.length;
             onItemClick(currentIndex, items[currentIndex]);
           }
         }
       }
+      
+      mouseDownPos.current = null;
+      mouseUpPos.current = null;
     };
     
     if (containerRef.current) {
-      containerRef.current.addEventListener('click', handleCanvasClick);
+      containerRef.current.addEventListener('mousedown', handleMouseDown);
+      containerRef.current.addEventListener('mouseup', handleMouseUp);
     }
     
     return () => {
       if (containerRef.current) {
-        containerRef.current.removeEventListener('click', handleCanvasClick);
+        containerRef.current.removeEventListener('mousedown', handleMouseDown);
+        containerRef.current.removeEventListener('mouseup', handleMouseUp);
       }
       app.destroy();
     };
