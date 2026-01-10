@@ -32,9 +32,18 @@ export const projects = pgTable("projects", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
-export const insertProjectSchema = createInsertSchema(projects).omit({
-  id: true,
-  createdAt: true,
+// Custom schema for API that accepts camelCase
+export const insertProjectSchema = z.object({
+  websiteType: z.string(),
+  projectName: z.string(),
+  projectDescription: z.string(),
+  communicationMethods: z.string(),
+  budget: z.string(),
+  domain: z.string(),
+  name: z.string(),
+  email: z.string().email(),
+  phone: z.string().nullable().optional(),
+  company: z.string().nullable().optional(),
 });
 
 export type InsertProject = z.infer<typeof insertProjectSchema>;
