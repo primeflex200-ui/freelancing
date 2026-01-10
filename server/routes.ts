@@ -35,13 +35,15 @@ export async function registerRoutes(
     }
   });
 
-  // Delete a project
+  // Delete a project (must come before the clear all route)
   app.delete("/api/admin/projects/:id", async (req, res) => {
     try {
       const { id } = req.params;
       await storage.deleteProject(id);
+      res.setHeader('Content-Type', 'application/json');
       res.json({ success: true, message: "Project deleted successfully" });
     } catch (error: any) {
+      res.setHeader('Content-Type', 'application/json');
       res.status(500).json({ success: false, error: error.message });
     }
   });
@@ -50,8 +52,10 @@ export async function registerRoutes(
   app.delete("/api/admin/projects", async (req, res) => {
     try {
       await storage.clearAllProjects();
+      res.setHeader('Content-Type', 'application/json');
       res.json({ success: true, message: "All projects cleared successfully" });
     } catch (error: any) {
+      res.setHeader('Content-Type', 'application/json');
       res.status(500).json({ success: false, error: error.message });
     }
   });
