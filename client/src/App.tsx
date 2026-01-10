@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Home from "@/pages/home";
 import Process from "@/pages/process";
 import Work from "@/pages/work";
+import About from "@/pages/about";
 import Login from "@/pages/login";
 import StartProject from "@/pages/start-project";
 import ProjectSubmitted from "@/pages/project-submitted";
@@ -21,6 +22,7 @@ function Router() {
         <Route path="/" component={Home} />
         <Route path="/process" component={Process} />
         <Route path="/work" component={Work} />
+        <Route path="/about" component={About} />
         <Route path="/login" component={Login} />
         <Route path="/start-project" component={StartProject} />
         <Route path="/project-submitted" component={ProjectSubmitted} />
