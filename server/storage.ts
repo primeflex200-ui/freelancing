@@ -48,14 +48,43 @@ export class SupabaseStorage implements IStorage {
   }
 
   async insertProject(insertProject: InsertProject): Promise<Project> {
+    // Convert camelCase to snake_case for database
+    const dbProject = {
+      website_type: insertProject.websiteType,
+      project_name: insertProject.projectName,
+      project_description: insertProject.projectDescription,
+      communication_methods: insertProject.communicationMethods,
+      budget: insertProject.budget,
+      domain: insertProject.domain,
+      name: insertProject.name,
+      email: insertProject.email,
+      phone: insertProject.phone,
+      company: insertProject.company,
+    };
+
     const { data, error } = await supabase
       .from('projects')
-      .insert([insertProject])
+      .insert([dbProject])
       .select()
       .single();
     
     if (error) throw new Error(error.message);
-    return data as Project;
+    
+    // Convert snake_case back to camelCase
+    return {
+      id: data.id,
+      websiteType: data.website_type,
+      projectName: data.project_name,
+      projectDescription: data.project_description,
+      communicationMethods: data.communication_methods,
+      budget: data.budget,
+      domain: data.domain,
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      company: data.company,
+      createdAt: new Date(data.created_at),
+    } as Project;
   }
 
   async getAllProjects(): Promise<Project[]> {
@@ -65,7 +94,22 @@ export class SupabaseStorage implements IStorage {
       .order('created_at', { ascending: false });
     
     if (error) throw new Error(error.message);
-    return data as Project[];
+    
+    // Convert snake_case to camelCase
+    return data.map(project => ({
+      id: project.id,
+      websiteType: project.website_type,
+      projectName: project.project_name,
+      projectDescription: project.project_description,
+      communicationMethods: project.communication_methods,
+      budget: project.budget,
+      domain: project.domain,
+      name: project.name,
+      email: project.email,
+      phone: project.phone,
+      company: project.company,
+      createdAt: new Date(project.created_at),
+    })) as Project[];
   }
 }
 

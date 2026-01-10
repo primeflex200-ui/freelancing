@@ -44,15 +44,13 @@ export function Navbar() {
       }`}>
         
         {/* Logo */}
-        <Link href="/">
-          <a className="flex items-center gap-2 group cursor-pointer">
-            <div className="bg-primary/10 p-2 rounded-lg group-hover:bg-primary/20 transition-colors">
-              <Code2 className="w-6 h-6 text-primary" />
-            </div>
-            <span className="font-display font-bold text-xl tracking-tight text-black">
-              StackWeb
-            </span>
-          </a>
+        <Link href="/" className="flex items-center gap-2 group cursor-pointer">
+          <div className="bg-primary/10 p-2 rounded-lg group-hover:bg-primary/20 transition-colors">
+            <Code2 className="w-6 h-6 text-primary" />
+          </div>
+          <span className="font-display font-bold text-xl tracking-tight text-black">
+            StackWeb
+          </span>
         </Link>
 
         {/* Desktop Navigation Links */}
@@ -60,22 +58,22 @@ export function Navbar() {
           {navItems.map((item) => {
             const isActive = location === item.href || (item.href.startsWith("/#") && location === "/");
             return (
-              <Link key={item.name} href={item.href}>
-                <a
-                  onClick={(e) => handleNavClick(e, item.href)}
-                  className={`text-sm font-medium transition-colors relative ${
-                    isActive ? "text-black" : "text-muted-foreground hover:text-black"
-                  }`}
-                >
-                  {item.name}
-                  {isActive && (
-                    <motion.div
-                      layoutId="navbar-indicator"
-                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                </a>
+              <Link 
+                key={item.name} 
+                href={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
+                className={`text-sm font-medium transition-colors relative ${
+                  isActive ? "text-black" : "text-muted-foreground hover:text-black"
+                }`}
+              >
+                {item.name}
+                {isActive && (
+                  <motion.div
+                    layoutId="navbar-indicator"
+                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
               </Link>
             );
           })}
@@ -84,18 +82,14 @@ export function Navbar() {
         {/* CTA Buttons */}
         <div className="flex items-center gap-4">
           <Link href="/login">
-            <a>
-              <Button variant="ghost" className="hidden sm:flex text-muted-foreground hover:text-black hover:bg-black/5">
-                Login
-              </Button>
-            </a>
+            <Button variant="ghost" className="hidden sm:flex text-muted-foreground hover:text-black hover:bg-black/5">
+              Login
+            </Button>
           </Link>
           <Link href="/start-project">
-            <a>
-              <Button className="bg-black text-white hover:bg-zinc-800 font-medium rounded-full px-6 hidden md:flex">
-                Start Project
-              </Button>
-            </a>
+            <Button className="bg-black text-white hover:bg-zinc-800 font-medium rounded-full px-6 hidden md:flex">
+              Start Project
+            </Button>
           </Link>
 
           {/* Mobile Menu Button */}
@@ -124,32 +118,28 @@ export function Navbar() {
           >
             <div className="flex flex-col gap-4">
               {navItems.map((item) => (
-                <Link key={item.name} href={item.href}>
-                  <a
-                    onClick={(e) => {
-                      handleNavClick(e, item.href);
-                      setMobileMenuOpen(false);
-                    }}
-                    className="text-lg font-medium text-black hover:text-primary transition-colors py-2"
-                  >
-                    {item.name}
-                  </a>
+                <Link 
+                  key={item.name} 
+                  href={item.href}
+                  onClick={(e) => {
+                    handleNavClick(e, item.href);
+                    setMobileMenuOpen(false);
+                  }}
+                  className="text-lg font-medium text-black hover:text-primary transition-colors py-2"
+                >
+                  {item.name}
                 </Link>
               ))}
               <div className="border-t border-black/10 pt-4 mt-2 space-y-3">
-                <Link href="/login">
-                  <a onClick={() => setMobileMenuOpen(false)}>
-                    <Button variant="outline" className="w-full">
-                      Login
-                    </Button>
-                  </a>
+                <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
+                  <Button variant="outline" className="w-full">
+                    Login
+                  </Button>
                 </Link>
-                <Link href="/start-project">
-                  <a onClick={() => setMobileMenuOpen(false)}>
-                    <Button className="w-full bg-black text-white hover:bg-zinc-800">
-                      Start Project
-                    </Button>
-                  </a>
+                <Link href="/start-project" onClick={() => setMobileMenuOpen(false)}>
+                  <Button className="w-full bg-black text-white hover:bg-zinc-800">
+                    Start Project
+                  </Button>
                 </Link>
               </div>
             </div>
