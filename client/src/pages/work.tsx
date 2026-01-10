@@ -6,19 +6,19 @@ import CircularGallery from "@/components/ui/CircularGallery";
 
 const projects = [
   {
-    image: "/attached_assets/proff_icons.jpg",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
     text: "Professional"
   },
   {
-    image: "/attached_assets/generated_images/3d_macbook_floating_with_code_snippets_and_neon_glow.png",
+    image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&h=600&fit=crop",
     text: "Gaming"
   },
   {
-    image: "/attached_assets/generated_images/web_upload_1.jpeg",
+    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=600&fit=crop",
     text: "Startups"
   },
   {
-    image: "/attached_assets/generated_images/web_upload_2.png",
+    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop",
     text: "API & Backends"
   }
 ];
