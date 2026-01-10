@@ -1,8 +1,43 @@
 import { Navbar } from "@/components/ui/navbar";
 import { motion } from "framer-motion";
-import { Lock, ArrowRight } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { useRef } from "react";
 import VariableProximity from "@/components/ui/VariableProximity";
+
+const projects = [
+  {
+    title: "TechCorp Enterprise",
+    category: "Professional",
+    description: "Corporate website with custom CMS and analytics dashboard",
+    image: "/assets/generated_images/professional_dark_macbook_with_slate_gray_accents.png",
+    tags: ["React", "Node.js", "PostgreSQL"],
+    link: "#"
+  },
+  {
+    title: "GameZone Esports",
+    category: "Gaming",
+    description: "Immersive gaming platform with live streaming integration",
+    image: "/assets/generated_images/3d_macbook_floating_with_code_snippets_and_neon_glow.png",
+    tags: ["Next.js", "WebRTC", "Redis"],
+    link: "#"
+  },
+  {
+    title: "StartupLaunch SaaS",
+    category: "Startups",
+    description: "MVP platform with subscription management and analytics",
+    image: "/assets/generated_images/web_upload_1.jpeg",
+    tags: ["React", "Stripe", "AWS"],
+    link: "#"
+  },
+  {
+    title: "API Gateway Pro",
+    category: "API & Backend",
+    description: "Scalable API infrastructure with microservices architecture",
+    image: "/assets/generated_images/web_upload_2.png",
+    tags: ["Node.js", "Docker", "Kubernetes"],
+    link: "#"
+  }
+];
 
 export default function Work() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -37,61 +72,61 @@ export default function Work() {
             </p>
           </motion.div>
 
-          {/* Locked State */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="max-w-2xl mx-auto"
-          >
-            <div className="glass p-12 rounded-2xl text-center border-2 border-primary/20">
-              {/* Lock Icon */}
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-primary/10 mb-6">
-                <Lock className="w-10 h-10 text-primary" />
-              </div>
+          {/* Projects Grid */}
+          <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            {projects.map((project, index) => (
+              <motion.a
+                key={index}
+                href={project.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                whileHover={{ y: -8 }}
+                className="group cursor-pointer"
+              >
+                <div className="glass rounded-xl overflow-hidden">
+                  {/* Image */}
+                  <div className="relative h-64 bg-gradient-to-br from-black/5 to-black/10 overflow-hidden">
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      draggable="false"
+                    />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                      <ExternalLink className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    </div>
+                  </div>
 
-              {/* Message */}
-              <h2 className="text-3xl font-bold text-black mb-4">
-                Portfolio Coming Soon
-              </h2>
-              <p className="text-muted-foreground mb-8 leading-relaxed">
-                We're currently curating our best projects to showcase here. 
-                Our portfolio will feature stunning websites across professional, gaming, startup, and backend domains.
-              </p>
-
-              {/* CTA */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="/start-project"
-                  className="inline-flex items-center justify-center gap-2 bg-black text-white px-6 py-3 rounded-full font-semibold hover:bg-zinc-800 transition-colors"
-                >
-                  Start Your Project
-                  <ArrowRight className="w-4 h-4" />
-                </a>
-                <a
-                  href="/about"
-                  className="inline-flex items-center justify-center gap-2 border-2 border-black/10 bg-black/5 hover:bg-black/10 text-black px-6 py-3 rounded-full font-semibold transition-colors"
-                >
-                  Learn About Us
-                </a>
-              </div>
-
-              {/* Info */}
-              <div className="mt-8 pt-8 border-t border-black/10">
-                <p className="text-sm text-muted-foreground">
-                  Want to see what we can build for you? Contact us on{" "}
-                  <a 
-                    href="https://instagram.com/stackweb.dev" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-primary hover:underline font-medium"
-                  >
-                    Instagram @stackweb.dev
-                  </a>
-                </p>
-              </div>
-            </div>
-          </motion.div>
+                  {/* Content */}
+                  <div className="p-6">
+                    <span className="text-xs font-mono uppercase tracking-wider text-primary">
+                      {project.category}
+                    </span>
+                    <h3 className="text-2xl font-bold text-black mt-2 mb-3">
+                      {project.title}
+                    </h3>
+                    <p className="text-muted-foreground mb-4">
+                      {project.description}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {project.tags.map((tag, i) => (
+                        <span
+                          key={i}
+                          className="text-xs px-3 py-1 rounded-full bg-black/5 text-black"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.a>
+            ))}
+          </div>
         </div>
       </main>
     </div>
