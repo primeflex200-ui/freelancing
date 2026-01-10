@@ -7,19 +7,19 @@ import CircularGallery from "@/components/ui/CircularGallery";
 const projects = [
   {
     image: "/attached_assets/generated_images/professional_dark_macbook_with_slate_gray_accents.png",
-    text: "TechCorp Enterprise"
+    text: "Professional"
   },
   {
     image: "/attached_assets/generated_images/3d_macbook_floating_with_code_snippets_and_neon_glow.png",
-    text: "GameZone Esports"
+    text: "Gaming"
   },
   {
     image: "/attached_assets/generated_images/web_upload_1.jpeg",
-    text: "StartupLaunch SaaS"
+    text: "Startups"
   },
   {
     image: "/attached_assets/generated_images/web_upload_2.png",
-    text: "API Gateway Pro"
+    text: "API & Backends"
   }
 ];
 
