@@ -25,6 +25,11 @@ const projects = [
     image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop",
     text: "API & Backends",
     link: "/work/api-backends"
+  },
+  {
+    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop",
+    text: "Projects of StackWeb",
+    link: "/work/stackweb-projects"
   }
 ];
 

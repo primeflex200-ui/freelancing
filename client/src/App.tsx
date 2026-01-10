@@ -18,6 +18,7 @@ import Professional from "@/pages/professional";
 import Gaming from "@/pages/gaming";
 import Startups from "@/pages/startups";
 import ApiBackends from "@/pages/api-backends";
+import StackWebProjects from "@/pages/stackweb-projects";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -31,6 +32,7 @@ function Router() {
         <Route path="/work/gaming" component={Gaming} />
         <Route path="/work/startups" component={Startups} />
         <Route path="/work/api-backends" component={ApiBackends} />
+        <Route path="/work/stackweb-projects" component={StackWebProjects} />
         <Route path="/about" component={About} />
         <Route path="/login" component={Login} />
         <Route path="/start-project" component={StartProject} />
