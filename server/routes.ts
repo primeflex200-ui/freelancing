@@ -35,5 +35,26 @@ export async function registerRoutes(
     }
   });
 
+  // Delete a project
+  app.delete("/api/admin/projects/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      await storage.deleteProject(id);
+      res.json({ success: true, message: "Project deleted successfully" });
+    } catch (error: any) {
+      res.status(500).json({ success: false, error: error.message });
+    }
+  });
+
+  // Clear all projects
+  app.delete("/api/admin/projects", async (req, res) => {
+    try {
+      await storage.clearAllProjects();
+      res.json({ success: true, message: "All projects cleared successfully" });
+    } catch (error: any) {
+      res.status(500).json({ success: false, error: error.message });
+    }
+  });
+
   return httpServer;
 }

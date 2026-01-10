@@ -11,6 +11,8 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
   insertProject(project: InsertProject): Promise<Project>;
   getAllProjects(): Promise<Project[]>;
+  deleteProject(id: string): Promise<void>;
+  clearAllProjects(): Promise<void>;
 }
 
 export class SupabaseStorage implements IStorage {
@@ -111,6 +113,24 @@ export class SupabaseStorage implements IStorage {
       createdAt: new Date(project.created_at),
     })) as Project[];
   }
+
+  async deleteProject(id: string): Promise<void> {
+    const { error } = await supabase
+      .from('projects')
+      .delete()
+      .eq('id', id);
+    
+    if (error) throw new Error(error.message);
+  }
+
+  async clearAllProjects(): Promise<void> {
+    const { error } = await supabase
+      .from('projects')
+      .delete()
+      .neq('id', '00000000-0000-0000-0000-000000000000'); // Delete all rows
+    
+    if (error) throw new Error(error.message);
+  }
 }
 
 // Fallback to in-memory storage if Supabase is not configured
@@ -155,6 +175,14 @@ export class MemStorage implements IStorage {
     return Array.from(this.projects.values()).sort(
       (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
     );
+  }
+
+  async deleteProject(id: string): Promise<void> {
+    this.projects.delete(id);
+  }
+
+  async clearAllProjects(): Promise<void> {
+    this.projects.clear();
   }
 }
 

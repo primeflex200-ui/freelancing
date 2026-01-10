@@ -2,7 +2,7 @@ import { Navbar } from "@/components/ui/navbar";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Lock, Calendar, Mail, Phone, Building, DollarSign, Globe, FileText } from "lucide-react";
+import { Lock, Calendar, Mail, Phone, Building, DollarSign, Globe, FileText, Trash2, AlertTriangle } from "lucide-react";
 
 interface Project {
   id: string;
@@ -25,6 +25,8 @@ export default function Admin() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
 
   const handleVerify = async () => {
     setLoading(true);
@@ -62,6 +64,52 @@ export default function Admin() {
       hour: '2-digit',
       minute: '2-digit'
     });
+  };
+
+  const handleDeleteProject = async (id: string) => {
+    if (!confirm("Are you sure you want to delete this project?")) return;
+    
+    setDeletingId(id);
+    try {
+      const response = await fetch(`/api/admin/projects/${id}`, {
+        method: "DELETE",
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setProjects(projects.filter(p => p.id !== id));
+      } else {
+        alert("Failed to delete project");
+      }
+    } catch (err) {
+      alert("An error occurred while deleting");
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
+  const handleClearAll = async () => {
+    setShowClearConfirm(false);
+    setLoading(true);
+    
+    try {
+      const response = await fetch("/api/admin/projects", {
+        method: "DELETE",
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setProjects([]);
+      } else {
+        alert("Failed to clear projects");
+      }
+    } catch (err) {
+      alert("An error occurred while clearing");
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!isAuthenticated) {
@@ -123,12 +171,58 @@ export default function Admin() {
       
       <main className="pt-32 pb-20">
         <div className="container mx-auto px-4 max-w-7xl">
-          <div className="mb-8">
-            <h1 className="text-4xl font-bold text-black mb-2">Project Submissions</h1>
-            <p className="text-muted-foreground">
-              Total submissions: {projects.length}
-            </p>
+          <div className="mb-8 flex items-center justify-between">
+            <div>
+              <h1 className="text-4xl font-bold text-black mb-2">Project Submissions</h1>
+              <p className="text-muted-foreground">
+                Total submissions: {projects.length}
+              </p>
+            </div>
+            {projects.length > 0 && (
+              <Button
+                onClick={() => setShowClearConfirm(true)}
+                variant="outline"
+                className="border-red-500 text-red-500 hover:bg-red-50"
+              >
+                <Trash2 className="w-4 h-4 mr-2" />
+                Clear All
+              </Button>
+            )}
           </div>
+
+          {/* Clear All Confirmation Dialog */}
+          {showClearConfirm && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+              <div className="glass p-6 rounded-2xl max-w-md w-full">
+                <div className="flex items-start gap-4 mb-4">
+                  <div className="p-3 bg-red-100 rounded-full">
+                    <AlertTriangle className="w-6 h-6 text-red-600" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold text-black mb-2">Clear All Projects?</h3>
+                    <p className="text-muted-foreground">
+                      This will permanently delete all {projects.length} project submissions. This action cannot be undone.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-3 justify-end">
+                  <Button
+                    onClick={() => setShowClearConfirm(false)}
+                    variant="outline"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleClearAll}
+                    className="bg-red-500 text-white hover:bg-red-600"
+                    disabled={loading}
+                  >
+                    {loading ? "Clearing..." : "Clear All"}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {projects.length === 0 ? (
             <div className="glass p-12 rounded-2xl text-center">
@@ -141,8 +235,18 @@ export default function Admin() {
           ) : (
             <div className="space-y-6">
               {projects.map((project) => (
-                <div key={project.id} className="glass p-6 rounded-2xl">
-                  <div className="flex items-start justify-between mb-4">
+                <div key={project.id} className="glass p-6 rounded-2xl relative">
+                  {/* Delete Button */}
+                  <button
+                    onClick={() => handleDeleteProject(project.id)}
+                    disabled={deletingId === project.id}
+                    className="absolute top-4 right-4 p-2 hover:bg-red-50 rounded-lg transition-colors group"
+                    title="Delete project"
+                  >
+                    <Trash2 className={`w-5 h-5 ${deletingId === project.id ? 'text-gray-400' : 'text-red-500 group-hover:text-red-600'}`} />
+                  </button>
+
+                  <div className="flex items-start justify-between mb-4 pr-12">
                     <div>
                       <h3 className="text-2xl font-bold text-black mb-1">
                         {project.projectName}
