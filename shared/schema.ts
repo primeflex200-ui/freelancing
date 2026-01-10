@@ -22,6 +22,7 @@ export const projects = pgTable("projects", {
   websiteType: text("website_type").notNull(),
   projectName: text("project_name").notNull(),
   projectDescription: text("project_description").notNull(),
+  communicationMethods: text("communication_methods").notNull(),
   budget: text("budget").notNull(),
   domain: text("domain").notNull(),
   name: text("name").notNull(),

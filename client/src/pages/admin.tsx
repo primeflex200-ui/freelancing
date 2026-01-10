@@ -9,6 +9,7 @@ interface Project {
   websiteType: string;
   projectName: string;
   projectDescription: string;
+  communicationMethods: string;
   budget: string;
   domain: string;
   name: string;
@@ -160,6 +161,20 @@ export default function Admin() {
 
                   <div className="mb-4">
                     <p className="text-muted-foreground">{project.projectDescription}</p>
+                  </div>
+
+                  <div className="mb-4">
+                    <h4 className="text-sm font-semibold text-black mb-2">Communication Methods:</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {project.communicationMethods.split(", ").map((method, idx) => (
+                        <span key={idx} className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full capitalize">
+                          {method === "admin" ? "🔐 Admin Panel" : 
+                           method === "gmail" ? "📧 Gmail" : 
+                           method === "whatsapp" ? "💬 WhatsApp" : 
+                           "📱 SMS Message"}
+                        </span>
+                      ))}
+                    </div>
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-4 mb-4">
