@@ -75,15 +75,20 @@ export default function Admin() {
         method: "DELETE",
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
 
       if (data.success) {
         setProjects(projects.filter(p => p.id !== id));
       } else {
-        alert("Failed to delete project");
+        alert("Failed to delete project: " + (data.error || "Unknown error"));
       }
-    } catch (err) {
-      alert("An error occurred while deleting");
+    } catch (err: any) {
+      console.error("Delete error:", err);
+      alert("An error occurred while deleting: " + err.message);
     } finally {
       setDeletingId(null);
     }
@@ -98,15 +103,20 @@ export default function Admin() {
         method: "DELETE",
       });
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
       const data = await response.json();
 
       if (data.success) {
         setProjects([]);
       } else {
-        alert("Failed to clear projects");
+        alert("Failed to clear projects: " + (data.error || "Unknown error"));
       }
-    } catch (err) {
-      alert("An error occurred while clearing");
+    } catch (err: any) {
+      console.error("Clear error:", err);
+      alert("An error occurred while clearing: " + err.message);
     } finally {
       setLoading(false);
     }
