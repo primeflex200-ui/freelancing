@@ -107,8 +107,8 @@ export default function Process() {
                     </div>
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-white mb-2 drop-shadow-md">Our Specialty: Lightning-Fast Delivery</h3>
-                    <p className="text-white/90 leading-relaxed mb-3">
+                    <h3 className="text-2xl font-bold text-black mb-2">Our Specialty: Lightning-Fast Delivery</h3>
+                    <p className="text-black/80 leading-relaxed mb-3">
                       We pride ourselves on delivering professional websites at exceptional speed without compromising quality. 
                       Our streamlined process ensures your website is live as soon as possible.
                     </p>
@@ -116,7 +116,7 @@ export default function Process() {
                       <CheckCircle2 className="w-5 h-5" />
                       <span>Maximum delivery time: 15 days</span>
                     </div>
-                    <p className="text-sm text-white/80 mt-2">
+                    <p className="text-sm text-black/70 mt-2">
                       Most projects are completed even faster, depending on complexity and requirements.
                     </p>
                   </div>
@@ -145,8 +145,8 @@ export default function Process() {
 
                     {/* Content */}
                     <div className="flex-1 glass p-8 rounded-xl bg-white/10 backdrop-blur-md border border-white/20">
-                      <h3 className="text-2xl font-bold text-white mb-4 drop-shadow-md">{step.title}</h3>
-                      <p className="text-white/90 leading-relaxed">
+                      <h3 className="text-2xl font-bold text-black mb-4">{step.title}</h3>
+                      <p className="text-black/80 leading-relaxed">
                         {step.description}
                       </p>
                     </div>
