@@ -97,11 +97,6 @@ export function Navbar() {
 
         {/* CTA Buttons */}
         <div className="flex items-center gap-4">
-          <Link href="/login">
-            <Button variant="ghost" className="hidden sm:flex text-muted-foreground hover:text-black hover:bg-black/5">
-              Login
-            </Button>
-          </Link>
           <Link href="/start-project">
             <Button className="bg-black text-white hover:bg-zinc-800 font-medium rounded-full px-6 hidden md:flex">
               Start Project
@@ -146,12 +141,7 @@ export function Navbar() {
                   {item.name}
                 </Link>
               ))}
-              <div className="border-t border-black/10 pt-4 mt-2 space-y-3">
-                <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                  <Button variant="outline" className="w-full">
-                    Login
-                  </Button>
-                </Link>
+              <div className="border-t border-black/10 pt-4 mt-2">
                 <Link href="/start-project" onClick={() => setMobileMenuOpen(false)}>
                   <Button className="w-full bg-black text-white hover:bg-zinc-800">
                     Start Project
