@@ -63,6 +63,41 @@ export default function Process() {
             </p>
           </motion.div>
 
+          {/* Fast Delivery Specialty */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="max-w-4xl mx-auto mb-16"
+          >
+            <div className="glass p-8 rounded-2xl border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                    <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-black mb-2">Our Specialty: Lightning-Fast Delivery</h3>
+                  <p className="text-muted-foreground leading-relaxed mb-3">
+                    We pride ourselves on delivering professional websites at exceptional speed without compromising quality. 
+                    Our streamlined process ensures your website is live as soon as possible.
+                  </p>
+                  <div className="flex items-center gap-2 text-primary font-semibold">
+                    <CheckCircle2 className="w-5 h-5" />
+                    <span>Maximum delivery time: 15 days</span>
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    Most projects are completed even faster, depending on complexity and requirements.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
           {/* Process Steps */}
           <div className="max-w-4xl mx-auto space-y-12">
             {processSteps.map((step, index) => (
