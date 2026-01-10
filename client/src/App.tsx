@@ -40,7 +40,7 @@ function App() {
       <TooltipProvider>
         <SmoothScroll>
           <ClickSpark
-            sparkColor="#6366f1"
+            sparkColor="#000000"
             sparkSize={12}
             sparkRadius={20}
             sparkCount={8}
