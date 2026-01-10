@@ -1,13 +1,19 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Code2, Menu, X } from "lucide-react";
+import { Code2, Menu, X, ArrowLeft } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function Navbar() {
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const showBackButton = location !== "/";
+
+  const handleBack = () => {
+    window.history.back();
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,15 +49,25 @@ export function Navbar() {
         scrolled ? "shadow-lg" : ""
       }`}>
         
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group cursor-pointer">
-          <div className="bg-primary/10 p-2 rounded-lg group-hover:bg-primary/20 transition-colors">
-            <Code2 className="w-6 h-6 text-primary" />
-          </div>
-          <span className="font-display font-bold text-xl tracking-tight text-black">
-            StackWeb
-          </span>
-        </Link>
+        {/* Back Button or Logo */}
+        {showBackButton ? (
+          <button
+            onClick={handleBack}
+            className="flex items-center gap-2 group cursor-pointer hover:bg-black/5 px-3 py-2 rounded-lg transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5 text-primary" />
+            <span className="font-medium text-sm text-black hidden sm:inline">Back</span>
+          </button>
+        ) : (
+          <Link href="/" className="flex items-center gap-2 group cursor-pointer">
+            <div className="bg-primary/10 p-2 rounded-lg group-hover:bg-primary/20 transition-colors">
+              <Code2 className="w-6 h-6 text-primary" />
+            </div>
+            <span className="font-display font-bold text-xl tracking-tight text-black">
+              StackWeb
+            </span>
+          </Link>
+        )}
 
         {/* Desktop Navigation Links */}
         <div className="hidden md:flex items-center gap-8">
