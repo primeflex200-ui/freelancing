@@ -6,32 +6,27 @@ const processSteps = [
   {
     number: "01",
     title: "Discovery & Planning",
-    description: "We start by understanding your business goals, target audience, and project requirements through detailed consultations.",
-    duration: "1-2 weeks"
+    description: "We start by understanding your business goals, target audience, and project requirements through detailed consultations."
   },
   {
     number: "02",
     title: "Design & Prototyping",
-    description: "Our designers create stunning mockups and interactive prototypes that bring your vision to life.",
-    duration: "2-3 weeks"
+    description: "Our designers create stunning mockups and interactive prototypes that bring your vision to life."
   },
   {
     number: "03",
     title: "Development",
-    description: "Our developers build your website using cutting-edge technologies, ensuring performance and scalability.",
-    duration: "4-8 weeks"
+    description: "Our developers build your website using cutting-edge technologies, ensuring performance and scalability."
   },
   {
     number: "04",
     title: "Testing & QA",
-    description: "Rigorous testing across devices and browsers to ensure flawless functionality and user experience.",
-    duration: "1-2 weeks"
+    description: "Rigorous testing across devices and browsers to ensure flawless functionality and user experience."
   },
   {
     number: "05",
     title: "Launch & Support",
-    description: "We deploy your website and provide ongoing support to ensure everything runs smoothly.",
-    duration: "Ongoing"
+    description: "We deploy your website and provide ongoing support to ensure everything runs smoothly."
   }
 ];
 
@@ -119,12 +114,7 @@ export default function Process() {
 
                   {/* Content */}
                   <div className="flex-1 glass p-8 rounded-xl">
-                    <div className="flex items-start justify-between mb-4">
-                      <h3 className="text-2xl font-bold text-black">{step.title}</h3>
-                      <span className="text-sm text-muted-foreground bg-black/5 px-3 py-1 rounded-full">
-                        {step.duration}
-                      </span>
-                    </div>
+                    <h3 className="text-2xl font-bold text-black mb-4">{step.title}</h3>
                     <p className="text-muted-foreground leading-relaxed">
                       {step.description}
                     </p>
