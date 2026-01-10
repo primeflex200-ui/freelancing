@@ -37,8 +37,7 @@ export function Navbar() {
   const navItems = [
     { name: "Services", href: "/#services" },
     { name: "Process", href: "/process" },
-    { name: "Work", href: "/work" },
-    { name: "Pricing", href: "/pricing" }
+    { name: "Work", href: "/work" }
   ];
 
   return (
