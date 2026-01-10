@@ -182,10 +182,18 @@ export default function Home() {
             <div className="text-sm text-muted-foreground">
               © 2024 StackWeb. All rights reserved.
             </div>
-            <div className="flex gap-6 text-sm text-muted-foreground">
-              <a href="#" className="hover:text-black transition-colors">Twitter</a>
-              <a href="#" className="hover:text-black transition-colors">GitHub</a>
-              <a href="#" className="hover:text-black transition-colors">Dribbble</a>
+            <div className="flex gap-6 items-center">
+              <div className="flex gap-6 text-sm text-muted-foreground">
+                <a href="#" className="hover:text-black transition-colors">Twitter</a>
+                <a href="#" className="hover:text-black transition-colors">GitHub</a>
+                <a href="#" className="hover:text-black transition-colors">Dribbble</a>
+              </div>
+              <a 
+                href="/admin" 
+                className="text-sm text-muted-foreground hover:text-primary transition-colors font-medium"
+              >
+                Admin
+              </a>
             </div>
           </div>
         </motion.footer>
