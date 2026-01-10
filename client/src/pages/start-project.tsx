@@ -57,9 +57,39 @@ export default function StartProject() {
     if (step > 1) setStep(step - 1);
   };
 
-  const handleSubmit = () => {
-    console.log("Form submitted:", formData);
-    setLocation("/project-submitted");
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch("/api/projects", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          websiteType: formData.websiteType,
+          projectName: formData.projectName,
+          projectDescription: formData.projectDescription,
+          budget: formData.budget,
+          domain: formData.domain,
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || null,
+          company: formData.company || null,
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (data.success) {
+        console.log("Project submitted successfully:", data.project);
+        setLocation("/project-submitted");
+      } else {
+        console.error("Failed to submit project:", data.error);
+        alert("Failed to submit project. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error submitting project:", error);
+      alert("An error occurred. Please try again.");
+    }
   };
 
   const isStepValid = () => {

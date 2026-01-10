@@ -12,6 +12,7 @@ import Pricing from "@/pages/pricing";
 import Login from "@/pages/login";
 import StartProject from "@/pages/start-project";
 import ProjectSubmitted from "@/pages/project-submitted";
+import Admin from "@/pages/admin";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -25,6 +26,7 @@ function Router() {
         <Route path="/login" component={Login} />
         <Route path="/start-project" component={StartProject} />
         <Route path="/project-submitted" component={ProjectSubmitted} />
+        <Route path="/admin" component={Admin} />
         <Route component={NotFound} />
       </Switch>
     </AnimatePresence>
