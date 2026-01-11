@@ -51,7 +51,7 @@ export class SupabaseStorage implements IStorage {
 
   async insertProject(insertProject: InsertProject): Promise<Project> {
     // Convert camelCase to snake_case for database
-    const dbProject = {
+    const dbProject: any = {
       website_type: insertProject.websiteType,
       project_name: insertProject.projectName,
       project_description: insertProject.projectDescription,
@@ -62,11 +62,21 @@ export class SupabaseStorage implements IStorage {
       email: insertProject.email,
       phone: insertProject.phone,
       company: insertProject.company,
-      selected_design_id: insertProject.selectedDesignId,
-      selected_design_title: insertProject.selectedDesignTitle,
-      selected_design_category: insertProject.selectedDesignCategory,
-      selected_design_image_url: insertProject.selectedDesignImageUrl,
     };
+
+    // Only add design fields if they are provided
+    if (insertProject.selectedDesignId) {
+      dbProject.selected_design_id = insertProject.selectedDesignId;
+    }
+    if (insertProject.selectedDesignTitle) {
+      dbProject.selected_design_title = insertProject.selectedDesignTitle;
+    }
+    if (insertProject.selectedDesignCategory) {
+      dbProject.selected_design_category = insertProject.selectedDesignCategory;
+    }
+    if (insertProject.selectedDesignImageUrl) {
+      dbProject.selected_design_image_url = insertProject.selectedDesignImageUrl;
+    }
 
     const { data, error } = await supabase
       .from('projects')
@@ -89,10 +99,10 @@ export class SupabaseStorage implements IStorage {
       email: data.email,
       phone: data.phone,
       company: data.company,
-      selectedDesignId: data.selected_design_id,
-      selectedDesignTitle: data.selected_design_title,
-      selectedDesignCategory: data.selected_design_category,
-      selectedDesignImageUrl: data.selected_design_image_url,
+      selectedDesignId: data.selected_design_id || null,
+      selectedDesignTitle: data.selected_design_title || null,
+      selectedDesignCategory: data.selected_design_category || null,
+      selectedDesignImageUrl: data.selected_design_image_url || null,
       createdAt: new Date(data.created_at),
     } as Project;
   }
@@ -118,10 +128,10 @@ export class SupabaseStorage implements IStorage {
       email: project.email,
       phone: project.phone,
       company: project.company,
-      selectedDesignId: project.selected_design_id,
-      selectedDesignTitle: project.selected_design_title,
-      selectedDesignCategory: project.selected_design_category,
-      selectedDesignImageUrl: project.selected_design_image_url,
+      selectedDesignId: project.selected_design_id || null,
+      selectedDesignTitle: project.selected_design_title || null,
+      selectedDesignCategory: project.selected_design_category || null,
+      selectedDesignImageUrl: project.selected_design_image_url || null,
       createdAt: new Date(project.created_at),
     })) as Project[];
   }
