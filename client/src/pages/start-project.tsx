@@ -62,27 +62,34 @@ export default function StartProject() {
 
   const handleSubmit = async () => {
     try {
+      // Prepare submission data - only include design fields if they exist
+      const submissionData: any = {
+        websiteType: formData.websiteType,
+        projectName: formData.projectName,
+        projectDescription: formData.projectDescription,
+        communicationMethods: formData.communicationMethods.join(", "),
+        budget: formData.budget,
+        domain: formData.domain,
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || null,
+        company: formData.company || null,
+      };
+
+      // Only add design fields if a design was selected
+      if (selectedDesign) {
+        submissionData.selectedDesignId = selectedDesign.designId;
+        submissionData.selectedDesignTitle = selectedDesign.designTitle;
+        submissionData.selectedDesignCategory = selectedDesign.designCategory;
+        submissionData.selectedDesignImageUrl = selectedDesign.designImageUrl;
+      }
+
       const response = await fetch("/api/projects", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          websiteType: formData.websiteType,
-          projectName: formData.projectName,
-          projectDescription: formData.projectDescription,
-          communicationMethods: formData.communicationMethods.join(", "),
-          budget: formData.budget,
-          domain: formData.domain,
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone || null,
-          company: formData.company || null,
-          selectedDesignId: selectedDesign?.designId || null,
-          selectedDesignTitle: selectedDesign?.designTitle || null,
-          selectedDesignCategory: selectedDesign?.designCategory || null,
-          selectedDesignImageUrl: selectedDesign?.designImageUrl || null,
-        }),
+        body: JSON.stringify(submissionData),
       });
 
       const data = await response.json();
