@@ -69,7 +69,7 @@ export default function ProjectSubmitted() {
                 </a>
               </Button>
               <Button asChild variant="outline" className="rounded-full">
-                <a href="/work">View Our Work</a>
+                <a href="/work">View Our Designs</a>
               </Button>
             </div>
           </motion.div>

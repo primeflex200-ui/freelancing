@@ -99,7 +99,7 @@ export function Hero() {
                 className="w-full sm:w-auto h-12 px-8 rounded-full border-black/10 bg-black/5 hover:bg-black/10 hover:border-black/20 text-black backdrop-blur-sm"
                 asChild
               >
-                <a href="/work">View Live Prototypes</a>
+                <a href="/work">View Design Prototypes</a>
               </Button>
             </div>
           </motion.div>

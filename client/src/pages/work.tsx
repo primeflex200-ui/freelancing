@@ -59,7 +59,7 @@ export default function Work() {
             <h1 className="text-5xl md:text-6xl font-display font-bold mb-6 text-black">
               Our{" "}
               <VariableProximity
-                label="Work"
+                label="Design"
                 fromFontVariationSettings="'wght' 400, 'opsz' 9"
                 toFontVariationSettings="'wght' 900, 'opsz' 40"
                 containerRef={containerRef}
