@@ -1,8 +1,9 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Code2, Menu, X, ArrowLeft } from "lucide-react";
+import { Menu, X, ArrowLeft } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Logo, LogoCompact } from "@/components/ui/Logo";
 
 export function Navbar() {
   const [location, setLocation] = useLocation();
@@ -59,13 +60,13 @@ export function Navbar() {
             <span className="font-medium text-sm text-black hidden sm:inline">Back</span>
           </button>
         ) : (
-          <Link href="/" className="flex items-center gap-2 group cursor-pointer">
-            <div className="bg-primary/10 p-2 rounded-lg group-hover:bg-primary/20 transition-colors">
-              <Code2 className="w-6 h-6 text-primary" />
+          <Link href="/" className="flex items-center cursor-pointer">
+            <div className="hidden sm:block">
+              <Logo showText={true} />
             </div>
-            <span className="font-display font-bold text-xl tracking-tight text-black">
-              StackWeb
-            </span>
+            <div className="sm:hidden">
+              <LogoCompact />
+            </div>
           </Link>
         )}
 
