@@ -69,10 +69,10 @@ export default function Work() {
               />
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-4">
-              Explore our portfolio of successful projects across various industries.
+              Select the design that resonates with your vision, and we'll bring it to life for you.
             </p>
             <p className="text-sm text-muted-foreground">
-              Click on any category to view projects
+              Click on any category to explore designs and choose your preferred style
             </p>
           </motion.div>
 
