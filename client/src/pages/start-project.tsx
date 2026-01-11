@@ -4,8 +4,9 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ArrowRight, ArrowLeft, Check, Monitor, Gamepad2, Rocket, Code } from "lucide-react";
+import { ArrowRight, ArrowLeft, Check, Monitor, Gamepad2, Rocket, Code, X } from "lucide-react";
 import { useLocation } from "wouter";
+import { useDesignSelection } from "@/contexts/DesignSelectionContext";
 
 const websiteTypes = [
   { id: "professional", name: "Professional", icon: Monitor, description: "Corporate & Business" },
@@ -33,6 +34,7 @@ const domainOptions = [
 
 export default function StartProject() {
   const [, setLocation] = useLocation();
+  const { selectedDesign, clearSelection } = useDesignSelection();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     websiteType: "",
@@ -76,6 +78,10 @@ export default function StartProject() {
           email: formData.email,
           phone: formData.phone || null,
           company: formData.company || null,
+          selectedDesignId: selectedDesign?.designId || null,
+          selectedDesignTitle: selectedDesign?.designTitle || null,
+          selectedDesignCategory: selectedDesign?.designCategory || null,
+          selectedDesignImageUrl: selectedDesign?.designImageUrl || null,
         }),
       });
 
@@ -83,6 +89,7 @@ export default function StartProject() {
       
       if (data.success) {
         console.log("Project submitted successfully:", data.project);
+        clearSelection(); // Clear selection after successful submission
         setLocation("/project-submitted");
       } else {
         console.error("Failed to submit project:", data.error);
@@ -117,6 +124,41 @@ export default function StartProject() {
       
       <main className="pt-32 pb-20">
         <div className="container mx-auto px-4 max-w-4xl">
+          {/* Selected Design Display */}
+          {selectedDesign && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-8 glass p-4 rounded-2xl"
+            >
+              <div className="flex items-center gap-4">
+                <img
+                  src={selectedDesign.designImageUrl}
+                  alt={selectedDesign.designTitle}
+                  className="w-24 h-24 object-cover rounded-lg"
+                />
+                <div className="flex-1">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <p className="text-sm text-muted-foreground mb-1">Selected Design</p>
+                      <h3 className="font-bold text-black text-lg">{selectedDesign.designTitle}</h3>
+                      <span className="inline-block mt-1 px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full capitalize">
+                        {selectedDesign.designCategory.replace('-', ' ')}
+                      </span>
+                    </div>
+                    <button
+                      onClick={clearSelection}
+                      className="p-2 hover:bg-black/5 rounded-lg transition-colors"
+                      title="Clear selection"
+                    >
+                      <X className="w-5 h-5 text-muted-foreground" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+
           {/* Progress Bar */}
           <div className="mb-12">
             <div className="flex items-center justify-between mb-4">

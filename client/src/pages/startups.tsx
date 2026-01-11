@@ -1,51 +1,39 @@
 import { Navbar } from "@/components/ui/navbar";
 import { motion } from "framer-motion";
 import { useRef } from "react";
+import { useLocation } from "wouter";
 import VariableProximity from "@/components/ui/VariableProximity";
 import Stack from "@/components/ui/Stack";
-
-const startupProjects = [
-  {
-    title: "SaaS MVP Platform",
-    description: "Minimum viable product with subscription management",
-    image: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&h=600&fit=crop",
-    tags: ["React", "Stripe", "PostgreSQL"]
-  },
-  {
-    title: "Tech Startup Landing",
-    description: "High-converting landing page with analytics integration",
-    image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=600&fit=crop",
-    tags: ["Next.js", "Tailwind", "Analytics"]
-  },
-  {
-    title: "Mobile App Website",
-    description: "Product showcase website for mobile application",
-    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=600&fit=crop",
-    tags: ["React", "Framer Motion", "AWS"]
-  },
-  {
-    title: "Fintech Dashboard",
-    description: "Financial technology platform with real-time data",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
-    tags: ["Vue.js", "Chart.js", "Node.js"]
-  }
-];
+import { getDesignsByCategory } from "@/data/designs";
+import { useDesignSelection } from "@/contexts/DesignSelectionContext";
 
 export default function Startups() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [, setLocation] = useLocation();
+  const { selectDesign } = useDesignSelection();
+  
+  const designs = getDesignsByCategory('startups');
 
-  const stackCards = startupProjects.map((project, index) => (
+  const handleDesignSelect = (index: number) => {
+    const selectedDesign = designs[index];
+    selectDesign(selectedDesign);
+    setTimeout(() => {
+      setLocation('/start-project');
+    }, 1000);
+  };
+
+  const stackCards = designs.map((design, index) => (
     <div key={index} className="relative w-full h-full">
       <img
-        src={project.image}
-        alt={project.title}
+        src={design.imageUrl}
+        alt={design.title}
         className="w-full h-full object-cover"
       />
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-6">
-        <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
-        <p className="text-white/80 text-sm mb-3">{project.description}</p>
+        <h3 className="text-xl font-bold text-white mb-2">{design.title}</h3>
+        <p className="text-white/80 text-sm mb-3">{design.description}</p>
         <div className="flex flex-wrap gap-2">
-          {project.tags.map((tag, i) => (
+          {design.techStack.map((tag, i) => (
             <span
               key={i}
               className="text-xs px-2 py-1 rounded-full bg-white/20 text-white backdrop-blur-sm"
@@ -87,7 +75,7 @@ export default function Startups() {
               MVP platforms, SaaS products, and innovative startup solutions
             </p>
             <p className="text-sm text-muted-foreground">
-              Drag or click cards to explore projects
+              Click on a design to select it for your project
             </p>
           </motion.div>
 
@@ -102,8 +90,10 @@ export default function Startups() {
               <Stack
                 randomRotation={true}
                 sensitivity={180}
-                sendToBackOnClick={true}
+                sendToBackOnClick={false}
                 cards={stackCards}
+                onCardClick={handleDesignSelect}
+                showSelectionFeedback={true}
               />
             </div>
           </motion.div>

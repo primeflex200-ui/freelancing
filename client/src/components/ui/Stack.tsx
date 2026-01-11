@@ -1,5 +1,6 @@
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import { useState, useEffect, ReactNode } from 'react';
+import { Check } from 'lucide-react';
 import './Stack.css';
 
 interface CardRotateProps {
@@ -63,6 +64,8 @@ interface StackProps {
   pauseOnHover?: boolean;
   mobileClickOnly?: boolean;
   mobileBreakpoint?: number;
+  onCardClick?: (index: number) => void;
+  showSelectionFeedback?: boolean;
 }
 
 export default function Stack({
@@ -75,10 +78,14 @@ export default function Stack({
   autoplayDelay = 3000,
   pauseOnHover = false,
   mobileClickOnly = false,
-  mobileBreakpoint = 768
+  mobileBreakpoint = 768,
+  onCardClick,
+  showSelectionFeedback = false
 }: StackProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -167,6 +174,21 @@ export default function Stack({
     }
   }, [autoplay, autoplayDelay, stack, isPaused]);
 
+  const handleCardClick = (cardId: number, originalIndex: number) => {
+    if (shouldEnableClick) {
+      if (onCardClick && showSelectionFeedback) {
+        // Show selection feedback
+        setSelectedIndex(originalIndex);
+        // Call the callback after a short delay
+        setTimeout(() => {
+          onCardClick(originalIndex);
+        }, 1000);
+      } else {
+        sendToBack(cardId);
+      }
+    }
+  };
+
   return (
     <div
       className="stack-container"
@@ -175,6 +197,10 @@ export default function Stack({
     >
       {stack.map((card, index) => {
         const randomRotate = randomRotation ? Math.random() * 10 - 5 : 0;
+        const isTopCard = index === stack.length - 1;
+        const isSelected = selectedIndex === card.id - 1;
+        const isHovered = hoveredIndex === card.id - 1;
+        
         return (
           <CardRotate
             key={card.id}
@@ -184,7 +210,9 @@ export default function Stack({
           >
             <motion.div
               className="card"
-              onClick={() => shouldEnableClick && sendToBack(card.id)}
+              onClick={() => handleCardClick(card.id, card.id - 1)}
+              onMouseEnter={() => isTopCard && setHoveredIndex(card.id - 1)}
+              onMouseLeave={() => setHoveredIndex(null)}
               animate={{
                 rotateZ: (stack.length - index - 1) * 4 + randomRotate,
                 scale: 1 + index * 0.06 - stack.length * 0.06,
@@ -196,8 +224,40 @@ export default function Stack({
                 stiffness: animationConfig.stiffness,
                 damping: animationConfig.damping
               }}
+              style={{ position: 'relative' }}
             >
               {card.content}
+              
+              {/* Selection Overlay */}
+              {isSelected && showSelectionFeedback && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="absolute inset-0 bg-primary/20 backdrop-blur-sm flex items-center justify-center rounded-2xl"
+                  style={{ pointerEvents: 'none' }}
+                >
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+                    className="w-20 h-20 bg-primary rounded-full flex items-center justify-center"
+                  >
+                    <Check className="w-12 h-12 text-white" strokeWidth={3} />
+                  </motion.div>
+                </motion.div>
+              )}
+              
+              {/* Hover Tooltip */}
+              {isHovered && isTopCard && showSelectionFeedback && !isSelected && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="absolute top-4 left-1/2 -translate-x-1/2 bg-black text-white px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap"
+                  style={{ pointerEvents: 'none', zIndex: 10 }}
+                >
+                  Click to select this design
+                </motion.div>
+              )}
             </motion.div>
           </CardRotate>
         );

@@ -1,51 +1,40 @@
 import { Navbar } from "@/components/ui/navbar";
 import { motion } from "framer-motion";
 import { useRef } from "react";
+import { useLocation } from "wouter";
 import VariableProximity from "@/components/ui/VariableProximity";
 import Stack from "@/components/ui/Stack";
-
-const professionalProjects = [
-  {
-    title: "Corporate Website",
-    description: "Modern corporate website with custom CMS and analytics dashboard",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop",
-    tags: ["React", "Node.js", "PostgreSQL"]
-  },
-  {
-    title: "Business Portfolio",
-    description: "Professional portfolio website with dynamic content management",
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop",
-    tags: ["Next.js", "TypeScript", "Tailwind"]
-  },
-  {
-    title: "E-commerce Platform",
-    description: "Full-featured online store with payment integration",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop",
-    tags: ["React", "Stripe", "MongoDB"]
-  },
-  {
-    title: "Real Estate Website",
-    description: "Property listing platform with advanced search filters",
-    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&h=600&fit=crop",
-    tags: ["Vue.js", "Firebase", "Maps API"]
-  }
-];
+import { getDesignsByCategory } from "@/data/designs";
+import { useDesignSelection } from "@/contexts/DesignSelectionContext";
 
 export default function Professional() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [, setLocation] = useLocation();
+  const { selectDesign } = useDesignSelection();
+  
+  const designs = getDesignsByCategory('professional');
 
-  const stackCards = professionalProjects.map((project, index) => (
+  const handleDesignSelect = (index: number) => {
+    const selectedDesign = designs[index];
+    selectDesign(selectedDesign);
+    // Navigate to start-project after selection
+    setTimeout(() => {
+      setLocation('/start-project');
+    }, 1000);
+  };
+
+  const stackCards = designs.map((design, index) => (
     <div key={index} className="relative w-full h-full">
       <img
-        src={project.image}
-        alt={project.title}
+        src={design.imageUrl}
+        alt={design.title}
         className="w-full h-full object-cover"
       />
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-6">
-        <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
-        <p className="text-white/80 text-sm mb-3">{project.description}</p>
+        <h3 className="text-xl font-bold text-white mb-2">{design.title}</h3>
+        <p className="text-white/80 text-sm mb-3">{design.description}</p>
         <div className="flex flex-wrap gap-2">
-          {project.tags.map((tag, i) => (
+          {design.techStack.map((tag, i) => (
             <span
               key={i}
               className="text-xs px-2 py-1 rounded-full bg-white/20 text-white backdrop-blur-sm"
@@ -102,8 +91,10 @@ export default function Professional() {
               <Stack
                 randomRotation={true}
                 sensitivity={180}
-                sendToBackOnClick={true}
+                sendToBackOnClick={false}
                 cards={stackCards}
+                onCardClick={handleDesignSelect}
+                showSelectionFeedback={true}
               />
             </div>
           </motion.div>

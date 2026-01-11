@@ -29,6 +29,10 @@ export const projects = pgTable("projects", {
   email: text("email").notNull(),
   phone: text("phone"),
   company: text("company"),
+  selectedDesignId: text("selected_design_id"),
+  selectedDesignTitle: text("selected_design_title"),
+  selectedDesignCategory: text("selected_design_category"),
+  selectedDesignImageUrl: text("selected_design_image_url"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
@@ -44,6 +48,10 @@ export const insertProjectSchema = z.object({
   email: z.string().email(),
   phone: z.string().nullable().optional(),
   company: z.string().nullable().optional(),
+  selectedDesignId: z.string().nullable().optional(),
+  selectedDesignTitle: z.string().nullable().optional(),
+  selectedDesignCategory: z.string().nullable().optional(),
+  selectedDesignImageUrl: z.string().nullable().optional(),
 });
 
 export type InsertProject = z.infer<typeof insertProjectSchema>;

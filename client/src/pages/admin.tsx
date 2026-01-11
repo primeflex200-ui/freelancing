@@ -16,6 +16,10 @@ interface Project {
   email: string;
   phone: string | null;
   company: string | null;
+  selectedDesignId: string | null;
+  selectedDesignTitle: string | null;
+  selectedDesignCategory: string | null;
+  selectedDesignImageUrl: string | null;
   createdAt: string;
 }
 
@@ -276,6 +280,31 @@ export default function Admin() {
                   <div className="mb-4">
                     <p className="text-muted-foreground">{project.projectDescription}</p>
                   </div>
+
+                  {/* Selected Design Section */}
+                  {project.selectedDesignId && (
+                    <div className="mb-4 p-4 bg-primary/5 rounded-lg border border-primary/20">
+                      <h4 className="text-sm font-semibold text-black mb-3 flex items-center gap-2">
+                        <svg className="w-4 h-4 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        Selected Design
+                      </h4>
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={project.selectedDesignImageUrl || ''}
+                          alt={project.selectedDesignTitle || 'Design'}
+                          className="w-20 h-20 object-cover rounded-lg"
+                        />
+                        <div>
+                          <p className="font-semibold text-black">{project.selectedDesignTitle}</p>
+                          <span className="inline-block mt-1 px-2 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full capitalize">
+                            {project.selectedDesignCategory?.replace('-', ' ')}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   <div className="mb-4">
                     <h4 className="text-sm font-semibold text-black mb-2">Communication Methods:</h4>

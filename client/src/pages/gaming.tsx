@@ -1,51 +1,39 @@
 import { Navbar } from "@/components/ui/navbar";
 import { motion } from "framer-motion";
 import { useRef } from "react";
+import { useLocation } from "wouter";
 import VariableProximity from "@/components/ui/VariableProximity";
 import Stack from "@/components/ui/Stack";
-
-const gamingProjects = [
-  {
-    title: "Esports Tournament Platform",
-    description: "Live streaming platform with tournament management system",
-    image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&h=600&fit=crop",
-    tags: ["React", "WebRTC", "Socket.io"]
-  },
-  {
-    title: "Gaming Community Hub",
-    description: "Social platform for gamers with chat and matchmaking",
-    image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&h=600&fit=crop",
-    tags: ["Next.js", "Discord API", "Redis"]
-  },
-  {
-    title: "Game Stats Tracker",
-    description: "Real-time statistics and analytics for competitive gaming",
-    image: "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800&h=600&fit=crop",
-    tags: ["Vue.js", "GraphQL", "MongoDB"]
-  },
-  {
-    title: "Gaming Clan Website",
-    description: "Professional clan website with member management",
-    image: "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=800&h=600&fit=crop",
-    tags: ["React", "Firebase", "Tailwind"]
-  }
-];
+import { getDesignsByCategory } from "@/data/designs";
+import { useDesignSelection } from "@/contexts/DesignSelectionContext";
 
 export default function Gaming() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [, setLocation] = useLocation();
+  const { selectDesign } = useDesignSelection();
+  
+  const designs = getDesignsByCategory('gaming');
 
-  const stackCards = gamingProjects.map((project, index) => (
+  const handleDesignSelect = (index: number) => {
+    const selectedDesign = designs[index];
+    selectDesign(selectedDesign);
+    setTimeout(() => {
+      setLocation('/start-project');
+    }, 1000);
+  };
+
+  const stackCards = designs.map((design, index) => (
     <div key={index} className="relative w-full h-full">
       <img
-        src={project.image}
-        alt={project.title}
+        src={design.imageUrl}
+        alt={design.title}
         className="w-full h-full object-cover"
       />
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-6">
-        <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
-        <p className="text-white/80 text-sm mb-3">{project.description}</p>
+        <h3 className="text-xl font-bold text-white mb-2">{design.title}</h3>
+        <p className="text-white/80 text-sm mb-3">{design.description}</p>
         <div className="flex flex-wrap gap-2">
-          {project.tags.map((tag, i) => (
+          {design.techStack.map((tag, i) => (
             <span
               key={i}
               className="text-xs px-2 py-1 rounded-full bg-white/20 text-white backdrop-blur-sm"
@@ -87,7 +75,7 @@ export default function Gaming() {
               Esports platforms, gaming communities, and interactive gaming experiences
             </p>
             <p className="text-sm text-muted-foreground">
-              Drag or click cards to explore projects
+              Click on a design to select it for your project
             </p>
           </motion.div>
 
@@ -102,8 +90,10 @@ export default function Gaming() {
               <Stack
                 randomRotation={true}
                 sensitivity={180}
-                sendToBackOnClick={true}
+                sendToBackOnClick={false}
                 cards={stackCards}
+                onCardClick={handleDesignSelect}
+                showSelectionFeedback={true}
               />
             </div>
           </motion.div>

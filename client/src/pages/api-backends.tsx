@@ -1,51 +1,39 @@
 import { Navbar } from "@/components/ui/navbar";
 import { motion } from "framer-motion";
 import { useRef } from "react";
+import { useLocation } from "wouter";
 import VariableProximity from "@/components/ui/VariableProximity";
 import Stack from "@/components/ui/Stack";
-
-const apiProjects = [
-  {
-    title: "RESTful API Gateway",
-    description: "Scalable API infrastructure with microservices architecture",
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop",
-    tags: ["Node.js", "Docker", "Kubernetes"]
-  },
-  {
-    title: "GraphQL Backend",
-    description: "Modern GraphQL API with real-time subscriptions",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=600&fit=crop",
-    tags: ["GraphQL", "Apollo", "PostgreSQL"]
-  },
-  {
-    title: "Authentication Service",
-    description: "Secure authentication and authorization system",
-    image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&h=600&fit=crop",
-    tags: ["JWT", "OAuth", "Redis"]
-  },
-  {
-    title: "Data Processing Pipeline",
-    description: "High-performance data processing and analytics backend",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
-    tags: ["Python", "Apache Kafka", "MongoDB"]
-  }
-];
+import { getDesignsByCategory } from "@/data/designs";
+import { useDesignSelection } from "@/contexts/DesignSelectionContext";
 
 export default function ApiBackends() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [, setLocation] = useLocation();
+  const { selectDesign } = useDesignSelection();
+  
+  const designs = getDesignsByCategory('api-backend');
 
-  const stackCards = apiProjects.map((project, index) => (
+  const handleDesignSelect = (index: number) => {
+    const selectedDesign = designs[index];
+    selectDesign(selectedDesign);
+    setTimeout(() => {
+      setLocation('/start-project');
+    }, 1000);
+  };
+
+  const stackCards = designs.map((design, index) => (
     <div key={index} className="relative w-full h-full">
       <img
-        src={project.image}
-        alt={project.title}
+        src={design.imageUrl}
+        alt={design.title}
         className="w-full h-full object-cover"
       />
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-6">
-        <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
-        <p className="text-white/80 text-sm mb-3">{project.description}</p>
+        <h3 className="text-xl font-bold text-white mb-2">{design.title}</h3>
+        <p className="text-white/80 text-sm mb-3">{design.description}</p>
         <div className="flex flex-wrap gap-2">
-          {project.tags.map((tag, i) => (
+          {design.techStack.map((tag, i) => (
             <span
               key={i}
               className="text-xs px-2 py-1 rounded-full bg-white/20 text-white backdrop-blur-sm"
@@ -86,7 +74,7 @@ export default function ApiBackends() {
               Scalable APIs, backend systems, and microservices architecture
             </p>
             <p className="text-sm text-muted-foreground">
-              Drag or click cards to explore projects
+              Click on a design to select it for your project
             </p>
           </motion.div>
 
@@ -101,8 +89,10 @@ export default function ApiBackends() {
               <Stack
                 randomRotation={true}
                 sensitivity={180}
-                sendToBackOnClick={true}
+                sendToBackOnClick={false}
                 cards={stackCards}
+                onCardClick={handleDesignSelect}
+                showSelectionFeedback={true}
               />
             </div>
           </motion.div>

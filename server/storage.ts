@@ -62,6 +62,10 @@ export class SupabaseStorage implements IStorage {
       email: insertProject.email,
       phone: insertProject.phone,
       company: insertProject.company,
+      selected_design_id: insertProject.selectedDesignId,
+      selected_design_title: insertProject.selectedDesignTitle,
+      selected_design_category: insertProject.selectedDesignCategory,
+      selected_design_image_url: insertProject.selectedDesignImageUrl,
     };
 
     const { data, error } = await supabase
@@ -85,6 +89,10 @@ export class SupabaseStorage implements IStorage {
       email: data.email,
       phone: data.phone,
       company: data.company,
+      selectedDesignId: data.selected_design_id,
+      selectedDesignTitle: data.selected_design_title,
+      selectedDesignCategory: data.selected_design_category,
+      selectedDesignImageUrl: data.selected_design_image_url,
       createdAt: new Date(data.created_at),
     } as Project;
   }
@@ -110,6 +118,10 @@ export class SupabaseStorage implements IStorage {
       email: project.email,
       phone: project.phone,
       company: project.company,
+      selectedDesignId: project.selected_design_id,
+      selectedDesignTitle: project.selected_design_title,
+      selectedDesignCategory: project.selected_design_category,
+      selectedDesignImageUrl: project.selected_design_image_url,
       createdAt: new Date(project.created_at),
     })) as Project[];
   }
@@ -165,7 +177,11 @@ export class MemStorage implements IStorage {
     const project: Project = { 
       ...insertProject, 
       id,
-      createdAt: new Date()
+      createdAt: new Date(),
+      selectedDesignId: insertProject.selectedDesignId || null,
+      selectedDesignTitle: insertProject.selectedDesignTitle || null,
+      selectedDesignCategory: insertProject.selectedDesignCategory || null,
+      selectedDesignImageUrl: insertProject.selectedDesignImageUrl || null,
     };
     this.projects.set(id, project);
     return project;

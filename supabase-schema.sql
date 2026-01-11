@@ -18,6 +18,10 @@ CREATE TABLE IF NOT EXISTS projects (
   email TEXT NOT NULL,
   phone TEXT,
   company TEXT,
+  selected_design_id TEXT,
+  selected_design_title TEXT,
+  selected_design_category TEXT,
+  selected_design_image_url TEXT,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW() NOT NULL
 );
 
@@ -36,6 +40,9 @@ CREATE POLICY "Enable read access for all users" ON projects
 
 CREATE POLICY "Enable insert access for all users" ON projects
   FOR INSERT WITH CHECK (true);
+
+CREATE POLICY "Enable delete access for all users" ON projects
+  FOR DELETE USING (true);
 
 -- Create policies for users table
 CREATE POLICY "Enable read access for all users" ON users

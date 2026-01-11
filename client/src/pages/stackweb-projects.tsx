@@ -1,51 +1,39 @@
 import { Navbar } from "@/components/ui/navbar";
 import { motion } from "framer-motion";
 import { useRef } from "react";
+import { useLocation } from "wouter";
 import VariableProximity from "@/components/ui/VariableProximity";
 import Stack from "@/components/ui/Stack";
-
-const stackwebProjects = [
-  {
-    title: "StackWeb Portfolio",
-    description: "Our own portfolio website showcasing modern design and animations",
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop",
-    tags: ["React", "Framer Motion", "Tailwind"]
-  },
-  {
-    title: "Client Dashboard",
-    description: "Project management dashboard for client collaboration",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop",
-    tags: ["Next.js", "Supabase", "TypeScript"]
-  },
-  {
-    title: "Design System",
-    description: "Comprehensive component library and design system",
-    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=600&fit=crop",
-    tags: ["React", "Storybook", "Tailwind"]
-  },
-  {
-    title: "Internal Tools",
-    description: "Custom tools for project estimation and workflow automation",
-    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop",
-    tags: ["Node.js", "Express", "MongoDB"]
-  }
-];
+import { getDesignsByCategory } from "@/data/designs";
+import { useDesignSelection } from "@/contexts/DesignSelectionContext";
 
 export default function StackWebProjects() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [, setLocation] = useLocation();
+  const { selectDesign } = useDesignSelection();
+  
+  const designs = getDesignsByCategory('stackweb-projects');
 
-  const stackCards = stackwebProjects.map((project, index) => (
+  const handleDesignSelect = (index: number) => {
+    const selectedDesign = designs[index];
+    selectDesign(selectedDesign);
+    setTimeout(() => {
+      setLocation('/start-project');
+    }, 1000);
+  };
+
+  const stackCards = designs.map((design, index) => (
     <div key={index} className="relative w-full h-full">
       <img
-        src={project.image}
-        alt={project.title}
+        src={design.imageUrl}
+        alt={design.title}
         className="w-full h-full object-cover"
       />
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-6">
-        <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
-        <p className="text-white/80 text-sm mb-3">{project.description}</p>
+        <h3 className="text-xl font-bold text-white mb-2">{design.title}</h3>
+        <p className="text-white/80 text-sm mb-3">{design.description}</p>
         <div className="flex flex-wrap gap-2">
-          {project.tags.map((tag, i) => (
+          {design.techStack.map((tag, i) => (
             <span
               key={i}
               className="text-xs px-2 py-1 rounded-full bg-white/20 text-white backdrop-blur-sm"
@@ -87,7 +75,7 @@ export default function StackWebProjects() {
               Our internal projects, tools, and experimental work
             </p>
             <p className="text-sm text-muted-foreground">
-              Drag or click cards to explore projects
+              Click on a design to select it for your project
             </p>
           </motion.div>
 
@@ -102,8 +90,10 @@ export default function StackWebProjects() {
               <Stack
                 randomRotation={true}
                 sensitivity={180}
-                sendToBackOnClick={true}
+                sendToBackOnClick={false}
                 cards={stackCards}
+                onCardClick={handleDesignSelect}
+                showSelectionFeedback={true}
               />
             </div>
           </motion.div>
