@@ -24,6 +24,13 @@ export function DesignPreviewModal({ design, isOpen, onClose, onSelect }: Design
             exit={{ opacity: 0 }}
             onClick={onClose}
             className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+            style={{ 
+              willChange: 'opacity',
+              transform: 'translateZ(0)',
+              WebkitTransform: 'translateZ(0)',
+              backfaceVisibility: 'hidden',
+              WebkitBackfaceVisibility: 'hidden'
+            }}
           />
 
           {/* Modal */}
@@ -35,6 +42,13 @@ export function DesignPreviewModal({ design, isOpen, onClose, onSelect }: Design
               transition={{ type: 'spring', damping: 25, stiffness: 300 }}
               className="relative w-full max-w-4xl max-h-[90vh] overflow-hidden rounded-2xl bg-white shadow-2xl"
               onClick={(e) => e.stopPropagation()}
+              style={{ 
+                willChange: 'transform, opacity',
+                transform: 'translateZ(0)',
+                WebkitTransform: 'translateZ(0)',
+                backfaceVisibility: 'hidden',
+                WebkitBackfaceVisibility: 'hidden'
+              }}
             >
               {/* Close Button */}
               <button

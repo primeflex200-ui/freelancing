@@ -3,6 +3,11 @@
   width: 100%;
   height: 100%;
   perspective: 600px;
+  /* GPU acceleration */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .card-rotate {
@@ -10,6 +15,12 @@
   width: 100%;
   height: 100%;
   cursor: grab;
+  /* GPU acceleration */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
 }
 
 .card-rotate-disabled {
@@ -17,6 +28,11 @@
   width: 100%;
   height: 100%;
   cursor: pointer;
+  /* GPU acceleration */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .card {
@@ -27,12 +43,23 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  /* GPU acceleration */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  will-change: transform;
 }
 
 .card img {
   pointer-events: none;
   user-select: none;
   -webkit-user-drag: none;
+  /* GPU acceleration for images */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .card-image {
@@ -40,4 +67,9 @@
   height: 100%;
   object-fit: cover;
   pointer-events: none;
+  /* GPU acceleration */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }

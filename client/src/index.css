@@ -80,6 +80,9 @@
 @layer base {
   * {
     @apply border-border;
+    /* Enable GPU acceleration for all elements */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
   }
   
   html {
@@ -88,6 +91,9 @@
     /* Enable hardware acceleration for smooth scrolling */
     -webkit-overflow-scrolling: touch;
     overflow-scrolling: touch;
+    /* Optimize rendering performance */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   
   body {
@@ -96,12 +102,20 @@
     -moz-osx-font-smoothing: grayscale;
     /* Enable GPU acceleration */
     transform: translateZ(0);
+    -webkit-transform: translateZ(0);
     backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
     perspective: 1000px;
+    -webkit-perspective: 1000px;
+    /* Optimize CPU/GPU rendering */
+    will-change: scroll-position;
   }
   
   h1, h2, h3, h4, h5, h6 {
     @apply font-display tracking-tight;
+    /* GPU acceleration for headings */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
   }
   
   /* Prevent image dragging and selection */
@@ -112,6 +126,11 @@
     -moz-user-select: none;
     -ms-user-select: none;
     pointer-events: auto;
+    /* GPU acceleration for images */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
   }
   
   /* Smooth transitions for all elements */
@@ -144,6 +163,25 @@
   * {
     scroll-behavior: smooth !important;
   }
+  
+  /* GPU acceleration for interactive elements */
+  a, button, input, textarea, select, [role="button"] {
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  
+  /* Optimize animations for GPU */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateZ(0); }
+    to { opacity: 1; transform: translateZ(0); }
+  }
+  
+  @keyframes slideIn {
+    from { transform: translateX(-20px) translateZ(0); }
+    to { transform: translateX(0) translateZ(0); }
+  }
 }
 
 @layer utilities {
@@ -153,12 +191,24 @@
   .glass {
     @apply bg-white/70 backdrop-blur-md border border-black/5;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* GPU acceleration */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform, opacity;
   }
   .glass-card {
     background: linear-gradient(180deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0) 100%);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(0, 0, 0, 0.05);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    /* GPU acceleration */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform, opacity;
   }
   
   /* Smooth scroll snap */
@@ -169,15 +219,25 @@
   /* Hardware acceleration for animations */
   .gpu-accelerated {
     transform: translateZ(0);
+    -webkit-transform: translateZ(0);
     will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    perspective: 1000px;
+    -webkit-perspective: 1000px;
   }
   
   /* Smooth hover transitions */
   .smooth-hover {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
   }
   
   .smooth-hover:hover {
-    transform: translateY(-4px);
+    transform: translateY(-4px) translateZ(0);
+    -webkit-transform: translateY(-4px) translateZ(0);
   }
 }
