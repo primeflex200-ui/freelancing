@@ -1,26 +1,41 @@
 import { Navbar } from "@/components/ui/navbar";
 import { motion } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useLocation } from "wouter";
 import VariableProximity from "@/components/ui/VariableProximity";
 import Stack from "@/components/ui/Stack";
-import { getDesignsByCategory } from "@/data/designs";
+import { DesignPreviewModal } from "@/components/ui/DesignPreviewModal";
+import { getDesignsByCategory, DesignPrototype } from "@/data/designs";
 import { useDesignSelection } from "@/contexts/DesignSelectionContext";
 
 export default function Professional() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [, setLocation] = useLocation();
   const { selectDesign } = useDesignSelection();
+  const [previewDesign, setPreviewDesign] = useState<DesignPrototype | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   const designs = getDesignsByCategory('professional');
 
-  const handleDesignSelect = (index: number) => {
-    const selectedDesign = designs[index];
-    selectDesign(selectedDesign);
-    // Navigate to start-project after selection
-    setTimeout(() => {
-      setLocation('/start-project');
-    }, 1000);
+  const handleCardClick = (index: number) => {
+    setPreviewDesign(designs[index]);
+    setIsModalOpen(true);
+  };
+
+  const handleSelectDesign = () => {
+    if (previewDesign) {
+      selectDesign(previewDesign);
+      setIsModalOpen(false);
+      // Navigate to start-project after selection
+      setTimeout(() => {
+        setLocation('/start-project');
+      }, 300);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setPreviewDesign(null);
   };
 
   const stackCards = designs.map((design, index) => (
@@ -76,7 +91,7 @@ export default function Professional() {
               Corporate websites, business portfolios, and professional web solutions
             </p>
             <p className="text-sm text-muted-foreground">
-              Drag or click cards to explore projects
+              Click on a design to view details and select
             </p>
           </motion.div>
 
@@ -93,11 +108,19 @@ export default function Professional() {
                 sensitivity={180}
                 sendToBackOnClick={false}
                 cards={stackCards}
-                onCardClick={handleDesignSelect}
-                showSelectionFeedback={true}
+                onCardClick={handleCardClick}
+                enablePreview={true}
               />
             </div>
           </motion.div>
+
+          {/* Design Preview Modal */}
+          <DesignPreviewModal
+            design={previewDesign}
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            onSelect={handleSelectDesign}
+          />
         </div>
       </main>
     </div>

@@ -1,25 +1,40 @@
 import { Navbar } from "@/components/ui/navbar";
 import { motion } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useLocation } from "wouter";
 import VariableProximity from "@/components/ui/VariableProximity";
 import Stack from "@/components/ui/Stack";
-import { getDesignsByCategory } from "@/data/designs";
+import { DesignPreviewModal } from "@/components/ui/DesignPreviewModal";
+import { getDesignsByCategory, DesignPrototype } from "@/data/designs";
 import { useDesignSelection } from "@/contexts/DesignSelectionContext";
 
 export default function Startups() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [, setLocation] = useLocation();
   const { selectDesign } = useDesignSelection();
+  const [previewDesign, setPreviewDesign] = useState<DesignPrototype | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   const designs = getDesignsByCategory('startups');
 
-  const handleDesignSelect = (index: number) => {
-    const selectedDesign = designs[index];
-    selectDesign(selectedDesign);
-    setTimeout(() => {
-      setLocation('/start-project');
-    }, 1000);
+  const handleCardClick = (index: number) => {
+    setPreviewDesign(designs[index]);
+    setIsModalOpen(true);
+  };
+
+  const handleSelectDesign = () => {
+    if (previewDesign) {
+      selectDesign(previewDesign);
+      setIsModalOpen(false);
+      setTimeout(() => {
+        setLocation('/start-project');
+      }, 300);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setPreviewDesign(null);
   };
 
   const stackCards = designs.map((design, index) => (
@@ -75,7 +90,7 @@ export default function Startups() {
               MVP platforms, SaaS products, and innovative startup solutions
             </p>
             <p className="text-sm text-muted-foreground">
-              Click on a design to select it for your project
+              Click on a design to view details and select
             </p>
           </motion.div>
 
@@ -92,11 +107,19 @@ export default function Startups() {
                 sensitivity={180}
                 sendToBackOnClick={false}
                 cards={stackCards}
-                onCardClick={handleDesignSelect}
-                showSelectionFeedback={true}
+                onCardClick={handleCardClick}
+                enablePreview={true}
               />
             </div>
           </motion.div>
+
+          {/* Design Preview Modal */}
+          <DesignPreviewModal
+            design={previewDesign}
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            onSelect={handleSelectDesign}
+          />
         </div>
       </main>
     </div>

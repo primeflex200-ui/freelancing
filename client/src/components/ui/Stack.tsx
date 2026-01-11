@@ -66,6 +66,7 @@ interface StackProps {
   mobileBreakpoint?: number;
   onCardClick?: (index: number) => void;
   showSelectionFeedback?: boolean;
+  enablePreview?: boolean;
 }
 
 export default function Stack({
@@ -80,7 +81,8 @@ export default function Stack({
   mobileClickOnly = false,
   mobileBreakpoint = 768,
   onCardClick,
-  showSelectionFeedback = false
+  showSelectionFeedback = false,
+  enablePreview = false
 }: StackProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
@@ -176,13 +178,20 @@ export default function Stack({
 
   const handleCardClick = (cardId: number, originalIndex: number) => {
     if (shouldEnableClick) {
-      if (onCardClick && showSelectionFeedback) {
-        // Show selection feedback
-        setSelectedIndex(originalIndex);
-        // Call the callback after a short delay
-        setTimeout(() => {
+      if (onCardClick) {
+        if (enablePreview) {
+          // Just call the callback to open preview modal
           onCardClick(originalIndex);
-        }, 1000);
+        } else if (showSelectionFeedback) {
+          // Show selection feedback
+          setSelectedIndex(originalIndex);
+          // Call the callback after a short delay
+          setTimeout(() => {
+            onCardClick(originalIndex);
+          }, 1000);
+        } else {
+          onCardClick(originalIndex);
+        }
       } else {
         sendToBack(cardId);
       }
@@ -248,14 +257,14 @@ export default function Stack({
               )}
               
               {/* Hover Tooltip */}
-              {isHovered && isTopCard && showSelectionFeedback && !isSelected && (
+              {isHovered && isTopCard && (showSelectionFeedback || enablePreview) && !isSelected && (
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="absolute top-4 left-1/2 -translate-x-1/2 bg-black text-white px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap"
                   style={{ pointerEvents: 'none', zIndex: 10 }}
                 >
-                  Click to select this design
+                  {enablePreview ? 'Click to view details' : 'Click to select this design'}
                 </motion.div>
               )}
             </motion.div>
