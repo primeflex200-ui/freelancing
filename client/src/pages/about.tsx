@@ -36,13 +36,30 @@ export default function About() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.3 }}
-      className="min-h-screen bg-background text-foreground"
+      className="min-h-screen bg-background text-foreground relative"
       ref={containerRef}
     >
-      <Navbar />
-      
-      <main className="pt-32 pb-20">
-        <div className="container mx-auto px-4 max-w-5xl">
+      {/* Video Background */}
+      <div className="fixed inset-0 z-0 overflow-hidden">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="/about-background.mp4" type="video/mp4" />
+        </video>
+        {/* Overlay for better text readability */}
+        <div className="absolute inset-0 bg-white/70" />
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10">
+        <Navbar />
+        
+        <main className="pt-32 pb-20">
+          <div className="container mx-auto px-4 max-w-5xl">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -152,6 +169,7 @@ export default function About() {
           </motion.div>
         </div>
       </main>
+      </div>
     </motion.div>
   );
 }
