@@ -71,9 +71,15 @@ export default function Work() {
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-4">
               Select the design that resonates with your vision, and we'll bring it to life for you.
             </p>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground mb-6">
               Click on any category to explore designs and choose your preferred style
             </p>
+            <div className="max-w-2xl mx-auto bg-primary/5 border border-primary/20 rounded-lg px-6 py-4">
+              <p className="text-sm text-center text-muted-foreground">
+                <span className="font-semibold text-primary">Please note:</span> We are currently refining our design portfolio. 
+                New designs will be available soon. Thank you for your patience.
+              </p>
+            </div>
           </motion.div>
 
           {/* Circular Gallery */}
