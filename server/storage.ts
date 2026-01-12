@@ -185,7 +185,9 @@ export class MemStorage implements IStorage {
   async insertProject(insertProject: InsertProject): Promise<Project> {
     const id = randomUUID();
     const project: Project = { 
-      ...insertProject, 
+      ...insertProject,
+      phone: insertProject.phone ?? null,
+      company: insertProject.company ?? null,
       id,
       createdAt: new Date(),
       selectedDesignId: insertProject.selectedDesignId || null,

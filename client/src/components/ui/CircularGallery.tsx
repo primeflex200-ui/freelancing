@@ -4,7 +4,7 @@ import './CircularGallery.css';
 
 function debounce(func: (...args: any[]) => void, wait: number) {
   let timeout: NodeJS.Timeout;
-  return function (...args: any[]) {
+  return function (this: any, ...args: any[]) {
     clearTimeout(timeout);
     timeout = setTimeout(() => func.apply(this, args), wait);
   };
@@ -120,14 +120,14 @@ class Media {
   program: any;
   plane: any;
   title: any;
-  scale: number;
-  padding: number;
-  width: number;
-  widthTotal: number;
-  x: number;
-  speed: number;
-  isBefore: boolean;
-  isAfter: boolean;
+  scale: number = 0;
+  padding: number = 0;
+  width: number = 0;
+  widthTotal: number = 0;
+  x: number = 0;
+  speed: number = 0;
+  isBefore: boolean = false;
+  isAfter: boolean = false;
 
   constructor({
     geometry,
@@ -320,13 +320,13 @@ class App {
   camera: any;
   scene: any;
   planeGeometry: any;
-  mediasImages: any[];
-  medias: Media[];
+  mediasImages: any[] = [];
+  medias: Media[] = [];
   screen: any;
   viewport: any;
-  isDown: boolean;
-  start: number;
-  raf: number;
+  isDown: boolean = false;
+  start: number = 0;
+  raf: number = 0;
   boundOnResize: any;
   boundOnWheel: any;
   boundOnTouchDown: any;

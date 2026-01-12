@@ -14,7 +14,7 @@ function useAnimationFrame(callback: () => void) {
   }, [callback]);
 }
 
-function useMousePositionRef(containerRef: React.RefObject<HTMLElement>) {
+function useMousePositionRef(containerRef: React.RefObject<HTMLElement | null>) {
   const positionRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
@@ -49,7 +49,7 @@ interface VariableProximityProps {
   label: string;
   fromFontVariationSettings: string;
   toFontVariationSettings: string;
-  containerRef: React.RefObject<HTMLElement>;
+  containerRef: React.RefObject<HTMLElement | null>;
   radius?: number;
   falloff?: 'linear' | 'exponential' | 'gaussian';
   className?: string;
