@@ -1,9 +1,12 @@
 import { Navbar } from "@/components/ui/navbar";
 import { Hero } from "@/components/ui/hero";
-import { Code, Monitor, Rocket, Gamepad2 } from "lucide-react";
+import { Code, Monitor, Rocket, Gamepad2, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import SplitText from "@/components/ui/split-text";
 import { motion } from "framer-motion";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 
 const services = [
   {
@@ -33,6 +36,8 @@ const services = [
 ];
 
 export default function Home() {
+  const [selectedService, setSelectedService] = useState<string | null>(null);
+
   return (
     <motion.div 
       initial={{ opacity: 0 }}
@@ -110,20 +115,28 @@ export default function Home() {
             className="grid md:grid-cols-2 lg:grid-cols-4 gap-6"
           >
             {services.map((service, index) => (
-              <motion.a
+              <motion.div
                 key={index}
-                href={`/start-project?type=${service.title.toLowerCase()}`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 whileHover={{ y: -8, transition: { duration: 0.2 } }}
-                className="group relative p-1 rounded-2xl bg-gradient-to-b from-black/5 to-transparent hover:from-primary/20 transition-all duration-300 cursor-pointer"
+                onClick={() => setSelectedService(service.title.toLowerCase())}
+                className={cn(
+                  "group relative p-1 rounded-2xl bg-gradient-to-b transition-all duration-300 cursor-pointer",
+                  selectedService === service.title.toLowerCase()
+                    ? "from-primary/30 to-primary/10 ring-2 ring-primary/50"
+                    : "from-black/5 to-transparent hover:from-primary/20"
+                )}
               >
                 <div 
                   className={cn(
-                    "absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-10 transition-opacity duration-500 blur-xl rounded-2xl pointer-events-none",
-                    service.color
+                    "absolute inset-0 bg-gradient-to-r transition-opacity duration-500 blur-xl rounded-2xl pointer-events-none",
+                    service.color,
+                    selectedService === service.title.toLowerCase()
+                      ? "opacity-20"
+                      : "opacity-0 group-hover:opacity-10"
                   )}
                 />
                 
@@ -164,9 +177,54 @@ export default function Home() {
                       />
                     </p>
                   </div>
+
+                  {/* Selection Indicator */}
+                  {selectedService === service.title.toLowerCase() && (
+                    <motion.div
+                      initial={{ scale: 0, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      className="absolute top-3 right-3 w-6 h-6 bg-primary rounded-full flex items-center justify-center"
+                    >
+                      <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </motion.div>
+                  )}
                 </div>
-              </motion.a>
+              </motion.div>
             ))}
+          </motion.div>
+
+          {/* Start Project Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="flex justify-center mt-12"
+          >
+            <Button
+              size="lg"
+              disabled={!selectedService}
+              className={cn(
+                "h-14 px-8 rounded-full text-base font-semibold transition-all duration-300",
+                selectedService
+                  ? "bg-black text-white hover:bg-zinc-800 hover:scale-105"
+                  : "bg-gray-200 text-gray-400 cursor-not-allowed"
+              )}
+              asChild={selectedService ? true : false}
+            >
+              {selectedService ? (
+                <Link href={`/start-project?type=${selectedService}`}>
+                  Start Project
+                  <ArrowRight className="ml-2 w-5 h-5" />
+                </Link>
+              ) : (
+                <span>
+                  Select a service type above
+                </span>
+              )}
+            </Button>
           </motion.div>
         </section>
 
