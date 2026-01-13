@@ -254,10 +254,11 @@ export default function Admin() {
                   <button
                     onClick={() => handleDeleteProject(project.id)}
                     disabled={deletingId === project.id}
-                    className="absolute top-4 right-4 p-2 hover:bg-red-50 rounded-lg transition-colors group"
+                    className="absolute top-4 right-4 p-3 hover:bg-red-50 rounded-lg transition-colors group cursor-pointer"
                     title="Delete project"
+                    aria-label="Delete project"
                   >
-                    <Trash2 className={`w-5 h-5 ${deletingId === project.id ? 'text-gray-400' : 'text-red-500 group-hover:text-red-600'}`} />
+                    <Trash2 className={`w-6 h-6 ${deletingId === project.id ? 'text-gray-400' : 'text-red-500 group-hover:text-red-600'}`} />
                   </button>
 
                   <div className="flex items-start justify-between mb-4 pr-12">
