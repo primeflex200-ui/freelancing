@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Mail, Lock, ArrowRight } from "lucide-react";
+import { Link } from "wouter";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -90,9 +91,9 @@ export default function Login() {
 
             <div className="mt-6 text-center text-sm text-muted-foreground">
               Don't have an account?{" "}
-              <a href="/start-project" className="text-primary hover:underline font-semibold">
+              <Link href="/start-project" className="text-primary hover:underline font-semibold">
                 Start a project
-              </a>
+              </Link>
             </div>
           </motion.div>
 

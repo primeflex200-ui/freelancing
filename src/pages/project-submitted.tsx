@@ -2,6 +2,7 @@ import { Navbar } from "@/components/ui/navbar";
 import { motion } from "framer-motion";
 import { CheckCircle2, Home, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 
 export default function ProjectSubmitted() {
   return (
@@ -63,13 +64,13 @@ export default function ProjectSubmitted() {
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild className="bg-black text-white hover:bg-zinc-800 rounded-full">
-                <a href="/" className="flex items-center gap-2">
+                <Link href="/" className="flex items-center gap-2">
                   <Home className="w-4 h-4" />
                   Back to Home
-                </a>
+                </Link>
               </Button>
               <Button asChild variant="outline" className="rounded-full">
-                <a href="/work">View Our Designs</a>
+                <Link href="/work">View Our Designs</Link>
               </Button>
             </div>
           </motion.div>

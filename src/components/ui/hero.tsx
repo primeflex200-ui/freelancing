@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useState, useEffect } from "react";
 import ShinyText from "@/components/ui/ShinyText";
+import { Link } from "wouter";
 import heroImage1 from "@assets/generated_images/3d_macbook_floating_with_code_snippets_and_neon_glow.png";
 import heroImage2 from "@assets/generated_images/professional_dark_macbook_with_slate_gray_accents.png";
 import heroImage3 from "@assets/generated_images/web_upload_1.jpeg";
@@ -99,7 +100,7 @@ export function Hero() {
                 className="w-full sm:w-auto h-12 px-8 rounded-full border-black/10 bg-black/5 hover:bg-black/10 hover:border-black/20 text-black backdrop-blur-sm"
                 asChild
               >
-                <a href="/work">View Design Prototypes</a>
+                <Link href="/work">View Design Prototypes</Link>
               </Button>
             </div>
           </motion.div>

@@ -2,6 +2,7 @@ import { Navbar } from "@/components/ui/navbar";
 import { motion } from "framer-motion";
 import { Check, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 
 const pricingPlans = [
   {
@@ -122,10 +123,10 @@ export default function Pricing() {
                       : 'bg-black/5 text-black hover:bg-black/10'
                   }`}
                 >
-                  <a href="/start-project" className="flex items-center justify-center gap-2">
+                  <Link href="/start-project" className="flex items-center justify-center gap-2">
                     {plan.cta}
                     <ArrowRight className="w-4 h-4" />
-                  </a>
+                  </Link>
                 </Button>
               </motion.div>
             ))}
@@ -140,9 +141,9 @@ export default function Pricing() {
           >
             <p className="text-muted-foreground">
               Need a custom solution?{" "}
-              <a href="/start-project" className="text-primary hover:underline font-semibold">
+              <Link href="/start-project" className="text-primary hover:underline font-semibold">
                 Let's talk
-              </a>
+              </Link>
             </p>
           </motion.div>
         </div>
