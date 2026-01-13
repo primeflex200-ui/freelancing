@@ -196,6 +196,7 @@ class Media {
         uniform sampler2D tMap;
         uniform float uBorderRadius;
         uniform float uGrayscale;
+        uniform float uDarkness;
         varying vec2 vUv;
         float roundedBoxSDF(vec2 p, vec2 b, float r) {
           vec2 d = abs(p) - b;
@@ -216,6 +217,9 @@ class Media {
           float gray = dot(color.rgb, vec3(0.299, 0.587, 0.114));
           vec3 finalColor = mix(color.rgb, vec3(gray), uGrayscale);
           
+          // Apply darkening effect (reduce brightness for side items)
+          finalColor = finalColor * (1.0 - uDarkness * 0.6);
+          
           float d = roundedBoxSDF(vUv - 0.5, vec2(0.5 - uBorderRadius), uBorderRadius);
           float edgeSmooth = 0.002;
           float alpha = 1.0 - smoothstep(-edgeSmooth, edgeSmooth, d);
@@ -229,7 +233,8 @@ class Media {
         uSpeed: { value: 0 },
         uTime: { value: 100 * Math.random() },
         uBorderRadius: { value: this.borderRadius },
-        uGrayscale: { value: 0.0 }
+        uGrayscale: { value: 0.0 },
+        uDarkness: { value: 0.0 }
       },
       transparent: true
     });
@@ -266,11 +271,12 @@ class Media {
     const x = this.plane.position.x;
     const H = this.viewport.width / 2;
     
-    // Calculate grayscale based on distance from center
+    // Calculate grayscale and darkness based on distance from center
     const distanceFromCenter = Math.abs(x);
     const maxDistance = this.viewport.width * 0.5; // Half viewport width
-    const grayscaleAmount = Math.min(distanceFromCenter / maxDistance, 1.0);
-    this.program.uniforms.uGrayscale.value = grayscaleAmount;
+    const effectAmount = Math.min(distanceFromCenter / maxDistance, 1.0);
+    this.program.uniforms.uGrayscale.value = effectAmount;
+    this.program.uniforms.uDarkness.value = effectAmount;
     
     if (this.bend === 0) {
       this.plane.position.y = 0;
