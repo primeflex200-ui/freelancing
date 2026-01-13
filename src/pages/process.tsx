@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { CheckCircle2 } from "lucide-react";
 import { useRef } from "react";
 import VariableProximity from "@/components/ui/VariableProximity";
+import { Link } from "wouter";
 
 const processSteps = [
   {
@@ -167,13 +168,13 @@ export default function Process() {
               viewport={{ once: true, margin: "-100px" }}
               className="text-center mt-20"
             >
-              <a
-                href="/start-project"
-                className="inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-full font-semibold hover:bg-white/90 transition-colors shadow-lg"
-              >
+            <Link
+              href="/start-project"
+              className="inline-flex items-center gap-2 bg-white text-black px-8 py-4 rounded-full font-semibold hover:bg-white/90 transition-colors shadow-lg"
+            >
                 <CheckCircle2 className="w-5 h-5" />
                 Start Your Project
-              </a>
+              </Link>
             </motion.div>
           </div>
         </main>

@@ -279,12 +279,12 @@ export default function Home() {
                   <a href="#" className="hover:text-black transition-colors">GitHub</a>
                   <a href="#" className="hover:text-black transition-colors">Dribbble</a>
                 </div>
-                <a 
+                <Link 
                   href="/admin" 
                   className="text-sm text-muted-foreground hover:text-primary transition-colors font-medium"
                 >
                   Admin
-                </a>
+                </Link>
               </div>
             </div>
           </div>

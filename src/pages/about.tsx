@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Zap, Target, Shield, Code2 } from "lucide-react";
 import { useRef } from "react";
 import VariableProximity from "@/components/ui/VariableProximity";
+import { Link } from "wouter";
 
 const values = [
   {
@@ -160,12 +161,12 @@ export default function About() {
             viewport={{ once: true }}
             className="text-center"
           >
-            <a
+            <Link
               href="/start-project"
               className="inline-flex items-center gap-2 bg-black text-white px-8 py-4 rounded-full font-semibold hover:bg-zinc-800 transition-colors"
             >
               Start Your Project
-            </a>
+            </Link>
           </motion.div>
         </div>
       </main>
