@@ -4,10 +4,9 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "dev:client": "vite dev --port 5000",
-    "dev": "tsx server/index.ts",
-    "build": "tsx script/build.ts",
-    "start": "node dist/index.cjs",
+    "dev": "vite dev --port 5000",
+    "build": "vite build",
+    "preview": "vite preview",
     "check": "tsc",
     "db:push": "drizzle-kit push"
   },
@@ -44,6 +43,7 @@
     "@radix-ui/react-tooltip": "^1.2.8",
     "@supabase/supabase-js": "^2.90.1",
     "@tanstack/react-query": "^5.60.5",
+    "@vercel/node": "^5.5.17",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
