@@ -9,15 +9,19 @@ export default function handler(req, res) {
   }
 
   if (req.method === 'POST') {
-    // Always return success
-    return res.status(200).json({
-      success: true,
-      project: {
-        id: 'demo-' + Date.now(),
-        ...req.body,
-        createdAt: new Date().toISOString()
-      },
-      message: 'Project submitted successfully!'
+    const { code } = req.body;
+    
+    if (code === 'freelancing.2025pjct') {
+      return res.status(200).json({
+        success: true,
+        projects: [],
+        message: 'Admin authenticated successfully!'
+      });
+    }
+    
+    return res.status(401).json({
+      success: false,
+      error: 'Invalid admin code'
     });
   }
 

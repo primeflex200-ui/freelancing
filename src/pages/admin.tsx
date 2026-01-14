@@ -38,7 +38,7 @@ export default function Admin() {
     setError("");
     
     try {
-      const response = await apiFetch("/api/admin/verify", {
+      const response = await apiFetch("/api/admin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
