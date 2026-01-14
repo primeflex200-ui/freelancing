@@ -49,12 +49,12 @@ export function createApiUrl(path: string): string {
 
 /**
  * Enhanced fetch function that automatically handles API URLs
- * @param path - The API path (e.g., '/api/projects')
+ * @param endpoint - The endpoint type (e.g., 'projects', 'admin')
  * @param options - Fetch options
  * @returns Promise<Response>
  */
-export async function apiFetch(path: string, options?: RequestInit): Promise<Response> {
-  const url = createApiUrl(path);
+export async function apiFetch(endpoint: string, options?: RequestInit): Promise<Response> {
+  const url = createApiUrl(`/api?endpoint=${endpoint}`);
   
   // Debug logging (only in development)
   if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {

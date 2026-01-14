@@ -17,7 +17,25 @@ const supabaseKey = process.env.SUPABASE_ANON_KEY;
 const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
 
 // API Routes
-app.post('/api/projects', async (req, res) => {
+// Handle different endpoints based on query parameter
+app.get('/api', (req, res) => {
+  const endpoint = req.query.endpoint || 'test';
+  
+  if (endpoint === 'test') {
+    return res.json({
+      success: true,
+      message: 'API is working!',
+      timestamp: new Date().toISOString()
+    });
+  }
+  
+  return res.status(404).json({ error: 'Endpoint not found' });
+});
+
+app.post('/api', (req, res) => {
+  const endpoint = req.query.endpoint;
+  
+  if (endpoint === 'projects') {
   try {
     console.log('📝 Project submission:', req.body);
     
@@ -93,9 +111,9 @@ app.post('/api/projects', async (req, res) => {
       error: `Server error: ${error.message}` 
     });
   }
-});
-
-app.post('/api/admin/verify', async (req, res) => {
+  }
+  
+  if (endpoint === 'admin') {
   try {
     const { code } = req.body;
     const ADMIN_CODE = process.env.ADMIN_CODE || "freelancing.2025pjct";

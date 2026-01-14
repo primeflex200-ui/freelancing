@@ -85,7 +85,7 @@ export default function StartProject() {
         submissionData.selectedDesignImageUrl = selectedDesign.designImageUrl;
       }
 
-      const response = await apiFetch("/api/projects", {
+      const response = await apiFetch("projects", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
