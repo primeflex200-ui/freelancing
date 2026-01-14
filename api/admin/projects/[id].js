@@ -1,4 +1,4 @@
-export default function handler(req, res) {
+module.exports = function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -8,22 +8,17 @@ export default function handler(req, res) {
     return res.status(200).end();
   }
 
-  if (req.method === 'POST') {
+  if (req.method === 'DELETE') {
     try {
-      const { code } = req.body;
-      const ADMIN_CODE = "freelancing.2025pjct";
-      
-      if (code !== ADMIN_CODE) {
-        return res.status(401).json({ success: false, error: "Invalid admin code" });
+      const { id } = req.query;
+      if (typeof id !== 'string') {
+        return res.status(400).json({ success: false, error: 'Invalid project ID' });
       }
 
-      // Return empty projects for now (demo mode)
       return res.status(200).json({ 
         success: true, 
-        projects: [],
-        message: "Admin authenticated successfully (demo mode)"
+        message: "Project deleted successfully (demo mode)" 
       });
-
     } catch (error) {
       return res.status(500).json({ 
         success: false, 
@@ -33,4 +28,4 @@ export default function handler(req, res) {
   }
 
   return res.status(405).json({ error: 'Method not allowed' });
-}
+};
