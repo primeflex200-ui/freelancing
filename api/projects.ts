@@ -1,9 +1,30 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
-import { insertProjectSchema } from '../shared/schema';
 import { randomUUID } from 'crypto';
 
+// Simple validation function instead of importing schema
+function validateProjectData(data: any) {
+  const required = ['websiteType', 'projectName', 'projectDescription', 'communicationMethods', 'budget', 'domain', 'name', 'email'];
+  for (const field of required) {
+    if (!data[field]) {
+      throw new Error(`Missing required field: ${field}`);
+    }
+  }
+  if (data.email && !data.email.includes('@')) {
+    throw new Error('Invalid email format');
+  }
+  return data;
+}
+
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // Log request for debugging
+  console.log('API Request:', {
+    method: req.method,
+    url: req.url,
+    body: req.body ? 'Present' : 'Missing',
+    timestamp: new Date().toISOString()
+  });
+
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -20,11 +41,18 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   if (req.method === 'POST') {
     try {
-      const projectData = insertProjectSchema.parse(req.body);
+      const projectData = validateProjectData(req.body);
+      
+      console.log('Validated project data:', projectData);
       
       // Check if Supabase is configured
       const supabaseUrl = process.env.SUPABASE_URL;
       const supabaseKey = process.env.SUPABASE_ANON_KEY;
+
+      console.log('Environment check:', {
+        supabaseUrl: supabaseUrl ? 'Present' : 'Missing',
+        supabaseKey: supabaseKey ? 'Present' : 'Missing'
+      });
 
       if (!supabaseUrl || !supabaseKey) {
         // Return mock success if Supabase is not configured

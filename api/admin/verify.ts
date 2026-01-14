@@ -2,6 +2,14 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { createClient } from '@supabase/supabase-js';
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // Log request for debugging
+  console.log('Admin Verify Request:', {
+    method: req.method,
+    url: req.url,
+    body: req.body ? 'Present' : 'Missing',
+    timestamp: new Date().toISOString()
+  });
+
   // Enable CORS
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -21,6 +29,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const { code } = req.body;
       const ADMIN_CODE = process.env.ADMIN_CODE || "freelancing.2025pjct";
       
+      console.log('Admin verification:', {
+        codeProvided: code ? 'Yes' : 'No',
+        adminCodeSet: ADMIN_CODE ? 'Yes' : 'No'
+      });
+      
       if (code !== ADMIN_CODE) {
         return res.status(401).json({ success: false, error: "Invalid admin code" });
       }
@@ -28,6 +41,11 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       // Check if Supabase is configured
       const supabaseUrl = process.env.SUPABASE_URL;
       const supabaseKey = process.env.SUPABASE_ANON_KEY;
+
+      console.log('Supabase environment check:', {
+        supabaseUrl: supabaseUrl ? 'Present' : 'Missing',
+        supabaseKey: supabaseKey ? 'Present' : 'Missing'
+      });
 
       if (!supabaseUrl || !supabaseKey) {
         // Return empty projects if Supabase is not configured
