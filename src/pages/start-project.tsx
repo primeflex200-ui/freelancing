@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ArrowRight, ArrowLeft, Check, Monitor, Gamepad2, Rocket, Code, X } from "lucide-react";
 import { useLocation } from "wouter";
 import { useDesignSelection } from "@/contexts/DesignSelectionContext";
+import { apiFetch } from "@/lib/api";
 
 const websiteTypes = [
   { id: "professional", name: "Professional", icon: Monitor, description: "Corporate & Business" },
@@ -84,7 +85,7 @@ export default function StartProject() {
         submissionData.selectedDesignImageUrl = selectedDesign.designImageUrl;
       }
 
-      const response = await fetch("/api/projects", {
+      const response = await apiFetch("/api/projects", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

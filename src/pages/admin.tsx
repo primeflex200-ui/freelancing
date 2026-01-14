@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Lock, Calendar, Mail, Phone, Building, DollarSign, Globe, FileText, Trash2, AlertTriangle } from "lucide-react";
+import { apiFetch } from "@/lib/api";
 
 interface Project {
   id: string;
@@ -37,7 +38,7 @@ export default function Admin() {
     setError("");
     
     try {
-      const response = await fetch("/api/admin/verify", {
+      const response = await apiFetch("/api/admin/verify", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -75,7 +76,7 @@ export default function Admin() {
     
     setDeletingId(id);
     try {
-      const response = await fetch(`/api/admin/projects/${id}`, {
+      const response = await apiFetch(`/api/admin/projects/${id}`, {
         method: "DELETE",
       });
 
@@ -103,7 +104,7 @@ export default function Admin() {
     setLoading(true);
     
     try {
-      const response = await fetch("/api/admin/projects", {
+      const response = await apiFetch("/api/admin/projects", {
         method: "DELETE",
       });
 
