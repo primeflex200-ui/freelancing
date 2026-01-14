@@ -3,7 +3,7 @@
 /**
  * Get the base URL for API calls
  * In development: uses localhost
- * In production: uses the current domain
+ * In production: uses the current domain (e.g., https://www.stackweb.net)
  */
 export function getApiBaseUrl(): string {
   // Check if we're in development mode
@@ -12,7 +12,14 @@ export function getApiBaseUrl(): string {
   }
   
   // In production, use the current domain
-  return window.location.origin;
+  const baseUrl = window.location.origin;
+  
+  // Debug logging (only in development)
+  if (import.meta.env.DEV) {
+    console.log('API Base URL:', baseUrl);
+  }
+  
+  return baseUrl;
 }
 
 /**
@@ -24,7 +31,14 @@ export function createApiUrl(path: string): string {
   const baseUrl = getApiBaseUrl();
   // Ensure path starts with /
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
-  return `${baseUrl}${cleanPath}`;
+  const fullUrl = `${baseUrl}${cleanPath}`;
+  
+  // Debug logging (only in development)
+  if (import.meta.env.DEV) {
+    console.log('API URL:', fullUrl);
+  }
+  
+  return fullUrl;
 }
 
 /**
@@ -35,5 +49,11 @@ export function createApiUrl(path: string): string {
  */
 export async function apiFetch(path: string, options?: RequestInit): Promise<Response> {
   const url = createApiUrl(path);
+  
+  // Debug logging (only in development)
+  if (import.meta.env.DEV) {
+    console.log('Making API request to:', url);
+  }
+  
   return fetch(url, options);
 }

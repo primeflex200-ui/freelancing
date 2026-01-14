@@ -1,5 +1,8 @@
 # Vercel Environment Variables Setup
 
+## Production Domain
+**Live Website**: https://www.stackweb.net
+
 ## Required Environment Variables
 
 When deploying to Vercel, make sure to set these environment variables in your Vercel dashboard:
@@ -29,12 +32,19 @@ NODE_ENV=production
 5. Make sure to set them for **Production**, **Preview**, and **Development** environments
 6. Redeploy your project after adding the variables
 
+## API Endpoints (Production)
+
+After deployment, these endpoints will be available:
+- `https://www.stackweb.net/api/projects` - Project submission
+- `https://www.stackweb.net/api/admin/verify` - Admin panel access
+- `https://www.stackweb.net/admin` - Admin panel UI
+
 ## Testing
 
-After deployment, test these endpoints:
-- `/api/projects` - Project submission
-- `/api/admin/verify` - Admin panel access
-- `/admin` - Admin panel UI
+Test these features on your live site:
+1. **Project Submission**: Go to https://www.stackweb.net → Start Project → Fill form → Submit
+2. **Admin Panel**: Go to https://www.stackweb.net/admin → Enter code: `freelancing.2025pjct`
+3. **Design Selection**: Test the circular gallery and design selection flow
 
 ## Troubleshooting
 
@@ -43,3 +53,6 @@ If you're still getting errors:
 2. Verify all environment variables are set correctly
 3. Make sure Supabase database is accessible
 4. Check that the API endpoints return proper CORS headers
+5. Test API endpoints directly:
+   - `https://www.stackweb.net/api/projects` (POST request)
+   - `https://www.stackweb.net/api/admin/verify` (POST request)
