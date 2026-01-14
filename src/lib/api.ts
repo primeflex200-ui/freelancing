@@ -3,19 +3,25 @@
 /**
  * Get the base URL for API calls
  * In development: uses localhost
- * In production: uses the current domain (e.g., https://www.stackweb.net)
+ * In production: uses the current domain (e.g., https://www.stackweb.net or https://freelancingma.vercel.app)
  */
 export function getApiBaseUrl(): string {
-  // Check if we're in development mode
-  if (import.meta.env.DEV) {
+  // Check if we're in a browser environment
+  if (typeof window === 'undefined') {
     return 'http://localhost:5000';
   }
   
-  // In production, use the current domain
+  // Check if we're on localhost (development)
+  if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+    return 'http://localhost:5000';
+  }
+  
+  // For all production deployments (Vercel, custom domain, etc.)
+  // Use the current domain
   const baseUrl = window.location.origin;
   
   // Debug logging (only in development)
-  if (import.meta.env.DEV) {
+  if (window.location.hostname === 'localhost') {
     console.log('API Base URL:', baseUrl);
   }
   
@@ -34,7 +40,7 @@ export function createApiUrl(path: string): string {
   const fullUrl = `${baseUrl}${cleanPath}`;
   
   // Debug logging (only in development)
-  if (import.meta.env.DEV) {
+  if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
     console.log('API URL:', fullUrl);
   }
   
@@ -51,7 +57,7 @@ export async function apiFetch(path: string, options?: RequestInit): Promise<Res
   const url = createApiUrl(path);
   
   // Debug logging (only in development)
-  if (import.meta.env.DEV) {
+  if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
     console.log('Making API request to:', url);
   }
   
