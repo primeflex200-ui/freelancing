@@ -1,12 +1,12 @@
 // Import Supabase client
-const { createClient } = require('@supabase/supabase-js');
+import { createClient } from '@supabase/supabase-js';
 
 // Initialize Supabase client
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_ANON_KEY;
 const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
 
-module.exports = async function handler(request, response) {
+export default async function handler(request, response) {
   const { method, body, query, url } = request;
   
   // Set CORS headers
@@ -217,4 +217,4 @@ module.exports = async function handler(request, response) {
       error: `Server error: ${error.message}`
     });
   }
-};
+}
