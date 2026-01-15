@@ -13,7 +13,8 @@ export function getApiBaseUrl(): string {
   
   // Check if we're on localhost (development)
   if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    return 'http://localhost:5173'; // Use Vite dev server with proxy
+    // In development, use the Vite dev server which proxies to the API server
+    return window.location.origin; // This will be http://localhost:5000
   }
   
   // For all production deployments (Vercel, custom domain, etc.)
