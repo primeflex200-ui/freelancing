@@ -25,8 +25,16 @@ export default async function handler(request, response) {
   }
 
   try {
-    // Parse URL to handle different endpoints
-    const urlPath = new URL(url, `http://${request.headers.host}`).pathname;
+    // Parse URL to handle different endpoints - fix URL parsing
+    let urlPath;
+    try {
+      urlPath = new URL(url, `http://${request.headers.host || 'localhost'}`).pathname;
+    } catch (e) {
+      // Fallback if URL parsing fails
+      urlPath = url.split('?')[0];
+    }
+    
+    console.log('API Request:', { method, urlPath, query, url });
     
     // Handle different endpoints
     if (method === 'GET' && query.endpoint === 'test') {
@@ -165,7 +173,7 @@ export default async function handler(request, response) {
 
     // Handle admin project deletion routes
     if (method === 'DELETE') {
-      console.log('DELETE request received:', { urlPath, url });
+      console.log('DELETE request received:', { urlPath, url, query });
       
       if (!supabaseAdmin) {
         return response.status(200).json({ 
@@ -174,47 +182,78 @@ export default async function handler(request, response) {
         });
       }
 
-      // Clear all projects - check multiple possible URL patterns
-      if (urlPath === '/api/admin/projects' || urlPath.endsWith('/admin/projects') || url.includes('/admin/projects') && !url.includes('/admin/projects/')) {
+      // Check if this is a clear all request
+      const isClearAll = urlPath === '/api/admin/projects' || 
+                        urlPath.endsWith('/admin/projects') || 
+                        (url.includes('/admin/projects') && !url.includes('/admin/projects/'));
+      
+      if (isClearAll) {
         console.log('Clearing all projects...');
-        const { error } = await supabaseAdmin
-          .from('projects')
-          .delete()
-          .neq('id', '00000000-0000-0000-0000-000000000000');
-        
-        if (error) {
-          console.error('Supabase error:', error);
-          return response.status(500).json({ 
-            success: false, 
-            error: `Database error: ${error.message}` 
-          });
-        }
-
-        return response.status(200).json({ success: true, message: "All projects cleared successfully" });
-      }
-
-      // Delete specific project - check if URL contains a project ID
-      if (urlPath.includes('/admin/projects/')) {
-        const projectId = urlPath.split('/').pop();
-        console.log('Deleting specific project:', projectId);
-        
-        if (projectId && projectId !== 'projects') {
+        try {
           const { error } = await supabaseAdmin
             .from('projects')
             .delete()
-            .eq('id', projectId);
+            .neq('id', '00000000-0000-0000-0000-000000000000');
           
           if (error) {
-            console.error('Supabase error:', error);
+            console.error('Supabase clear all error:', error);
             return response.status(500).json({ 
               success: false, 
               error: `Database error: ${error.message}` 
             });
           }
 
-          return response.status(200).json({ success: true, message: "Project deleted successfully" });
+          console.log('All projects cleared successfully');
+          return response.status(200).json({ success: true, message: "All projects cleared successfully" });
+        } catch (err) {
+          console.error('Clear all catch error:', err);
+          return response.status(500).json({ 
+            success: false, 
+            error: `Server error: ${err.message}` 
+          });
         }
       }
+
+      // Check if this is a delete specific project request
+      if (urlPath.includes('/admin/projects/')) {
+        const pathParts = urlPath.split('/');
+        const projectId = pathParts[pathParts.length - 1];
+        console.log('Deleting specific project:', projectId);
+        
+        if (projectId && projectId !== 'projects' && projectId.length > 0) {
+          try {
+            const { error } = await supabaseAdmin
+              .from('projects')
+              .delete()
+              .eq('id', projectId);
+            
+            if (error) {
+              console.error('Supabase delete error:', error);
+              return response.status(500).json({ 
+                success: false, 
+                error: `Database error: ${error.message}` 
+              });
+            }
+
+            console.log('Project deleted successfully:', projectId);
+            return response.status(200).json({ success: true, message: "Project deleted successfully" });
+          } catch (err) {
+            console.error('Delete project catch error:', err);
+            return response.status(500).json({ 
+              success: false, 
+              error: `Server error: ${err.message}` 
+            });
+          }
+        }
+      }
+      
+      // If we get here, the delete request format wasn't recognized
+      console.log('Unrecognized delete request format');
+      return response.status(400).json({
+        success: false,
+        error: 'Invalid delete request format',
+        debug: { urlPath, url, method }
+      });
     }
     
     return response.status(404).json({
