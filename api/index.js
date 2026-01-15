@@ -3,8 +3,14 @@ import { createClient } from '@supabase/supabase-js';
 
 // Initialize Supabase client
 const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_ANON_KEY;
-const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+// Use anon key for regular operations
+const supabase = supabaseUrl && supabaseAnonKey ? createClient(supabaseUrl, supabaseAnonKey) : null;
+
+// Use service role key for admin operations (delete, etc.)
+const supabaseAdmin = supabaseUrl && supabaseServiceKey ? createClient(supabaseUrl, supabaseServiceKey) : supabase;
 
 export default async function handler(request, response) {
   const { method, body, query, url } = request;
@@ -161,7 +167,7 @@ export default async function handler(request, response) {
     if (method === 'DELETE') {
       console.log('DELETE request received:', { urlPath, url });
       
-      if (!supabase) {
+      if (!supabaseAdmin) {
         return response.status(200).json({ 
           success: true, 
           message: "Project deleted successfully (development mode)" 
@@ -171,7 +177,7 @@ export default async function handler(request, response) {
       // Clear all projects - check multiple possible URL patterns
       if (urlPath === '/api/admin/projects' || urlPath.endsWith('/admin/projects') || url.includes('/admin/projects') && !url.includes('/admin/projects/')) {
         console.log('Clearing all projects...');
-        const { error } = await supabase
+        const { error } = await supabaseAdmin
           .from('projects')
           .delete()
           .neq('id', '00000000-0000-0000-0000-000000000000');
@@ -193,7 +199,7 @@ export default async function handler(request, response) {
         console.log('Deleting specific project:', projectId);
         
         if (projectId && projectId !== 'projects') {
-          const { error } = await supabase
+          const { error } = await supabaseAdmin
             .from('projects')
             .delete()
             .eq('id', projectId);
