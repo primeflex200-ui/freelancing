@@ -25,152 +25,154 @@ app.get('/api', (req, res) => {
     return res.json({
       success: true,
       message: 'API is working!',
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      supabase: supabase ? 'Connected' : 'Not configured'
     });
   }
   
   return res.status(404).json({ error: 'Endpoint not found' });
 });
 
-app.post('/api', (req, res) => {
+app.post('/api', async (req, res) => {
   const endpoint = req.query.endpoint;
   
   if (endpoint === 'projects') {
-  try {
-    console.log('📝 Project submission:', req.body);
-    
-    if (!supabase) {
-      return res.json({ 
-        success: true, 
-        project: { id: 'mock-' + Date.now(), ...req.body, createdAt: new Date() },
-        message: 'Development mode - Supabase not configured'
-      });
-    }
+    try {
+      console.log('📝 Project submission:', req.body);
+      
+      if (!supabase) {
+        return res.json({ 
+          success: true, 
+          project: { id: 'mock-' + Date.now(), ...req.body, createdAt: new Date() },
+          message: 'Development mode - Supabase not configured'
+        });
+      }
 
-    // Convert camelCase to snake_case for database
-    const dbProject = {
-      website_type: req.body.websiteType,
-      project_name: req.body.projectName,
-      project_description: req.body.projectDescription,
-      communication_methods: req.body.communicationMethods,
-      budget: req.body.budget,
-      domain: req.body.domain,
-      name: req.body.name,
-      email: req.body.email,
-      phone: req.body.phone || null,
-      company: req.body.company || null,
-    };
+      // Convert camelCase to snake_case for database
+      const dbProject = {
+        website_type: req.body.websiteType,
+        project_name: req.body.projectName,
+        project_description: req.body.projectDescription,
+        communication_methods: req.body.communicationMethods,
+        budget: req.body.budget,
+        domain: req.body.domain,
+        name: req.body.name,
+        email: req.body.email,
+        phone: req.body.phone || null,
+        company: req.body.company || null,
+      };
 
-    // Add design fields if provided
-    if (req.body.selectedDesignId) {
-      dbProject.selected_design_id = req.body.selectedDesignId;
-      dbProject.selected_design_title = req.body.selectedDesignTitle;
-      dbProject.selected_design_category = req.body.selectedDesignCategory;
-      dbProject.selected_design_image_url = req.body.selectedDesignImageUrl;
-    }
+      // Add design fields if provided
+      if (req.body.selectedDesignId) {
+        dbProject.selected_design_id = req.body.selectedDesignId;
+        dbProject.selected_design_title = req.body.selectedDesignTitle;
+        dbProject.selected_design_category = req.body.selectedDesignCategory;
+        dbProject.selected_design_image_url = req.body.selectedDesignImageUrl;
+      }
 
-    const { data, error } = await supabase
-      .from('projects')
-      .insert([dbProject])
-      .select()
-      .single();
-    
-    if (error) {
-      console.error('Supabase error:', error);
-      return res.status(500).json({ 
+      const { data, error } = await supabase
+        .from('projects')
+        .insert([dbProject])
+        .select()
+        .single();
+      
+      if (error) {
+        console.error('Supabase error:', error);
+        return res.status(500).json({ 
+          success: false, 
+          error: `Database error: ${error.message}` 
+        });
+      }
+      
+      // Convert snake_case back to camelCase
+      const project = {
+        id: data.id,
+        websiteType: data.website_type,
+        projectName: data.project_name,
+        projectDescription: data.project_description,
+        communicationMethods: data.communication_methods,
+        budget: data.budget,
+        domain: data.domain,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        company: data.company,
+        selectedDesignId: data.selected_design_id || null,
+        selectedDesignTitle: data.selected_design_title || null,
+        selectedDesignCategory: data.selected_design_category || null,
+        selectedDesignImageUrl: data.selected_design_image_url || null,
+        createdAt: new Date(data.created_at),
+      };
+
+      res.json({ success: true, project });
+    } catch (error) {
+      console.error('Project creation error:', error);
+      res.status(400).json({ 
         success: false, 
-        error: `Database error: ${error.message}` 
+        error: `Server error: ${error.message}` 
       });
     }
-    
-    // Convert snake_case back to camelCase
-    const project = {
-      id: data.id,
-      websiteType: data.website_type,
-      projectName: data.project_name,
-      projectDescription: data.project_description,
-      communicationMethods: data.communication_methods,
-      budget: data.budget,
-      domain: data.domain,
-      name: data.name,
-      email: data.email,
-      phone: data.phone,
-      company: data.company,
-      selectedDesignId: data.selected_design_id || null,
-      selectedDesignTitle: data.selected_design_title || null,
-      selectedDesignCategory: data.selected_design_category || null,
-      selectedDesignImageUrl: data.selected_design_image_url || null,
-      createdAt: new Date(data.created_at),
-    };
+  } else if (endpoint === 'admin') {
+    try {
+      const { code } = req.body;
+      const ADMIN_CODE = process.env.ADMIN_CODE || "freelancing.2025pjct";
+      
+      if (code !== ADMIN_CODE) {
+        return res.status(401).json({ success: false, error: "Invalid admin code" });
+      }
 
-    res.json({ success: true, project });
-  } catch (error) {
-    console.error('Project creation error:', error);
-    res.status(400).json({ 
-      success: false, 
-      error: `Server error: ${error.message}` 
-    });
-  }
-  }
-  
-  if (endpoint === 'admin') {
-  try {
-    const { code } = req.body;
-    const ADMIN_CODE = process.env.ADMIN_CODE || "freelancing.2025pjct";
-    
-    if (code !== ADMIN_CODE) {
-      return res.status(401).json({ success: false, error: "Invalid admin code" });
-    }
+      if (!supabase) {
+        return res.json({ 
+          success: true, 
+          projects: [],
+          message: "Development mode - Supabase not configured"
+        });
+      }
 
-    if (!supabase) {
-      return res.json({ 
-        success: true, 
-        projects: [],
-        message: "Development mode - Supabase not configured"
-      });
-    }
+      // Fetch projects from Supabase
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .order('created_at', { ascending: false });
+      
+      if (error) {
+        console.error('Supabase error:', error);
+        return res.status(500).json({ 
+          success: false, 
+          error: `Database error: ${error.message}` 
+        });
+      }
 
-    // Fetch projects from Supabase
-    const { data, error } = await supabase
-      .from('projects')
-      .select('*')
-      .order('created_at', { ascending: false });
-    
-    if (error) {
-      console.error('Supabase error:', error);
-      return res.status(500).json({ 
+      // Convert snake_case to camelCase
+      const projects = (data || []).map(project => ({
+        id: project.id,
+        websiteType: project.website_type,
+        projectName: project.project_name,
+        projectDescription: project.project_description,
+        communicationMethods: project.communication_methods,
+        budget: project.budget,
+        domain: project.domain,
+        name: project.name,
+        email: project.email,
+        phone: project.phone,
+        company: project.company,
+        selectedDesignId: project.selected_design_id || null,
+        selectedDesignTitle: project.selected_design_title || null,
+        selectedDesignCategory: project.selected_design_category || null,
+        selectedDesignImageUrl: project.selected_design_image_url || null,
+        createdAt: project.created_at,
+      }));
+
+      res.json({ success: true, projects });
+    } catch (error) {
+      console.error('Admin verify error:', error);
+      res.status(500).json({ 
         success: false, 
-        error: `Database error: ${error.message}` 
+        error: `Server error: ${error.message}` 
       });
     }
-
-    // Convert snake_case to camelCase
-    const projects = (data || []).map(project => ({
-      id: project.id,
-      websiteType: project.website_type,
-      projectName: project.project_name,
-      projectDescription: project.project_description,
-      communicationMethods: project.communication_methods,
-      budget: project.budget,
-      domain: project.domain,
-      name: project.name,
-      email: project.email,
-      phone: project.phone,
-      company: project.company,
-      selectedDesignId: project.selected_design_id || null,
-      selectedDesignTitle: project.selected_design_title || null,
-      selectedDesignCategory: project.selected_design_category || null,
-      selectedDesignImageUrl: project.selected_design_image_url || null,
-      createdAt: project.created_at,
-    }));
-
-    res.json({ success: true, projects });
-  } catch (error) {
-    console.error('Admin verify error:', error);
-    res.status(500).json({ 
-      success: false, 
-      error: `Server error: ${error.message}` 
-    });
+  } else {
+    return res.status(404).json({ error: 'Endpoint not found' });
   }
 });
 

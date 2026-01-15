@@ -8,12 +8,12 @@
 export function getApiBaseUrl(): string {
   // Check if we're in a browser environment
   if (typeof window === 'undefined') {
-    return 'http://localhost:5000';
+    return 'http://localhost:3001';
   }
   
   // Check if we're on localhost (development)
   if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-    return 'http://localhost:5000';
+    return 'http://localhost:5173'; // Use Vite dev server with proxy
   }
   
   // For all production deployments (Vercel, custom domain, etc.)

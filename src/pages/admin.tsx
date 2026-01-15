@@ -76,7 +76,7 @@ export default function Admin() {
     
     setDeletingId(id);
     try {
-      const response = await apiFetch(`/api/admin/projects/${id}`, {
+      const response = await fetch(`/api/admin/projects/${id}`, {
         method: "DELETE",
       });
 
@@ -104,7 +104,7 @@ export default function Admin() {
     setLoading(true);
     
     try {
-      const response = await apiFetch("/api/admin/projects", {
+      const response = await fetch("/api/admin/projects", {
         method: "DELETE",
       });
 
