@@ -319,11 +319,22 @@ class Media {
         this.plane.program.uniforms.uViewportSizes.value = [this.viewport.width, this.viewport.height];
       }
     }
-    this.scale = this.screen.height / 1500;
-    this.plane.scale.y = (this.viewport.height * (900 * this.scale)) / this.screen.height;
-    this.plane.scale.x = (this.viewport.width * (700 * this.scale)) / this.screen.width;
+    
+    // Mobile-responsive scaling
+    const isMobile = window.innerWidth < 768;
+    const baseScale = this.screen.height / 1500;
+    this.scale = isMobile ? baseScale * 0.7 : baseScale; // Smaller on mobile
+    
+    // Responsive dimensions
+    const mobileHeightFactor = isMobile ? 600 : 900; // Smaller height on mobile
+    const mobileWidthFactor = isMobile ? 500 : 700;   // Smaller width on mobile
+    
+    this.plane.scale.y = (this.viewport.height * (mobileHeightFactor * this.scale)) / this.screen.height;
+    this.plane.scale.x = (this.viewport.width * (mobileWidthFactor * this.scale)) / this.screen.width;
     this.plane.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y];
-    this.padding = 2;
+    
+    // Responsive padding
+    this.padding = isMobile ? 1.5 : 2; // Less padding on mobile for tighter spacing
     this.width = this.plane.scale.x + this.padding;
     this.widthTotal = this.width * this.length;
     this.x = this.width * this.index;
@@ -367,8 +378,17 @@ class App {
   ) {
     document.documentElement.classList.remove('no-js');
     this.container = container;
-    this.scrollSpeed = scrollSpeed;
-    this.scroll = { ease: scrollEase, current: 0, target: 0, last: 0 };
+    
+    // Adjust scroll speed and ease for mobile
+    const isMobile = window.innerWidth < 768;
+    this.scrollSpeed = isMobile ? scrollSpeed * 1.5 : scrollSpeed; // Faster scroll on mobile
+    this.scroll = { 
+      ease: isMobile ? 0.08 : scrollEase, // Slightly more responsive on mobile
+      current: 0, 
+      target: 0, 
+      last: 0 
+    };
+    
     this.onCheckDebounce = debounce(this.onCheck, 200);
     this.createRenderer();
     this.createCamera();
@@ -381,10 +401,14 @@ class App {
   }
 
   createRenderer() {
+    // Optimize for mobile performance
+    const isMobile = window.innerWidth < 768;
+    const dpr = isMobile ? Math.min(window.devicePixelRatio || 1, 1.5) : Math.min(window.devicePixelRatio || 1, 2);
+    
     this.renderer = new Renderer({
       alpha: true,
-      antialias: true,
-      dpr: Math.min(window.devicePixelRatio || 1, 2)
+      antialias: !isMobile, // Disable antialiasing on mobile for better performance
+      dpr: dpr
     });
     this.gl = this.renderer.gl;
     this.gl.clearColor(0, 0, 0, 0);
@@ -402,9 +426,14 @@ class App {
   }
 
   createGeometry() {
+    // Reduce geometry complexity on mobile for better performance
+    const isMobile = window.innerWidth < 768;
+    const heightSegments = isMobile ? 25 : 50; // Fewer segments on mobile
+    const widthSegments = isMobile ? 50 : 100;
+    
     this.planeGeometry = new Plane(this.gl, {
-      heightSegments: 50,
-      widthSegments: 100
+      heightSegments: heightSegments,
+      widthSegments: widthSegments
     });
   }
 
@@ -454,7 +483,9 @@ class App {
   onTouchMove(e: any) {
     if (!this.isDown) return;
     const x = e.touches ? e.touches[0].clientX : e.clientX;
-    const distance = (this.start - x) * (this.scrollSpeed * 0.025);
+    // Increased sensitivity for mobile - multiply by higher factor
+    const sensitivity = window.innerWidth < 768 ? 0.04 : 0.025; // More sensitive on mobile
+    const distance = (this.start - x) * (this.scrollSpeed * sensitivity);
     this.scroll.target = this.scroll.position + distance;
   }
 
@@ -512,15 +543,18 @@ class App {
     this.boundOnTouchDown = this.onTouchDown.bind(this);
     this.boundOnTouchMove = this.onTouchMove.bind(this);
     this.boundOnTouchUp = this.onTouchUp.bind(this);
+    
     window.addEventListener('resize', this.boundOnResize);
     window.addEventListener('mousewheel', this.boundOnWheel);
     window.addEventListener('wheel', this.boundOnWheel);
     window.addEventListener('mousedown', this.boundOnTouchDown);
     window.addEventListener('mousemove', this.boundOnTouchMove);
     window.addEventListener('mouseup', this.boundOnTouchUp);
-    window.addEventListener('touchstart', this.boundOnTouchDown);
-    window.addEventListener('touchmove', this.boundOnTouchMove);
-    window.addEventListener('touchend', this.boundOnTouchUp);
+    
+    // Enhanced touch events for better mobile experience
+    window.addEventListener('touchstart', this.boundOnTouchDown, { passive: false });
+    window.addEventListener('touchmove', this.boundOnTouchMove, { passive: false });
+    window.addEventListener('touchend', this.boundOnTouchUp, { passive: false });
   }
 
   destroy() {
