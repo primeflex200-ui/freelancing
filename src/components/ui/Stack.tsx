@@ -42,6 +42,13 @@ function CardRotate({ children, onSendToBack, sensitivity, disableDrag = false }
       dragElastic={0.6}
       whileTap={{ cursor: 'grabbing' }}
       onDragEnd={handleDragEnd}
+      // Smoother drag transitions
+      transition={{
+        type: 'spring',
+        stiffness: 300,
+        damping: 30,
+        mass: 1
+      }}
     >
       {children}
     </motion.div>
@@ -100,6 +107,11 @@ export default function Stack({
 
   const shouldDisableDrag = mobileClickOnly && isMobile;
   const shouldEnableClick = sendToBackOnClick || shouldDisableDrag;
+
+  // Smoother animation config for mobile
+  const smoothAnimationConfig = isMobile 
+    ? { stiffness: 200, damping: 25 } // Smoother on mobile
+    : animationConfig;
 
   const [stack, setStack] = useState<StackCard[]>(() => {
     if (cards.length) {
@@ -230,8 +242,11 @@ export default function Stack({
               initial={false}
               transition={{
                 type: 'spring',
-                stiffness: animationConfig.stiffness,
-                damping: animationConfig.damping
+                stiffness: smoothAnimationConfig.stiffness,
+                damping: smoothAnimationConfig.damping,
+                // Smoother transitions for mobile
+                duration: isMobile ? 0.4 : 0.3,
+                ease: [0.25, 0.46, 0.45, 0.94] // Custom easing for smoother movement
               }}
               style={{ position: 'relative' }}
             >

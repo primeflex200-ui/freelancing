@@ -8,6 +8,8 @@
   -webkit-transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  /* Smooth animations */
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .card-rotate {
@@ -21,6 +23,8 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   will-change: transform;
+  /* Smooth drag interactions */
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .card-rotate-disabled {
@@ -33,6 +37,8 @@
   -webkit-transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  /* Smooth transitions */
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .card {
@@ -49,6 +55,8 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   will-change: transform;
+  /* Smooth card animations */
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .card img {
@@ -60,6 +68,8 @@
   -webkit-transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  /* Smooth image transitions */
+  transition: transform 0.2s ease-out;
 }
 
 .card-image {
@@ -72,6 +82,8 @@
   -webkit-transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  /* Smooth image rendering */
+  transition: transform 0.2s ease-out;
 }
 
 /* Mobile optimizations */
@@ -79,11 +91,20 @@
   .stack-container {
     /* Reduce perspective on mobile for better performance */
     perspective: 400px;
+    /* Slightly longer transitions for smoother feel on mobile */
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  
+  .card-rotate {
+    /* Smoother drag on mobile */
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
   
   .card {
     /* Smaller border radius on mobile */
     border-radius: 0.75rem;
+    /* Longer transitions for smoother mobile experience */
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
   
   .card img,
@@ -91,5 +112,7 @@
     /* Optimize image rendering on mobile */
     image-rendering: -webkit-optimize-contrast;
     image-rendering: optimize-contrast;
+    /* Smoother image transitions on mobile */
+    transition: transform 0.3s ease-out;
   }
 }
