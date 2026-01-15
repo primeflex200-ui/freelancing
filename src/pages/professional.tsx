@@ -102,15 +102,25 @@ export default function Professional() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="max-w-2xl mx-auto"
           >
-            <div style={{ width: '100%', maxWidth: '500px', height: '500px', margin: '0 auto' }}>
-              <Stack
-                randomRotation={true}
-                sensitivity={180}
-                sendToBackOnClick={false}
-                cards={stackCards}
-                onCardClick={handleCardClick}
-                enablePreview={true}
-              />
+            <div className="w-full mx-auto" style={{ 
+              maxWidth: '500px', 
+              height: '500px',
+              // Mobile responsive sizing
+              '@media (max-width: 768px)': {
+                maxWidth: '350px',
+                height: '350px'
+              }
+            }}>
+              <div className="w-full h-full md:max-w-[500px] md:h-[500px] max-w-[350px] h-[350px] mx-auto">
+                <Stack
+                  randomRotation={true}
+                  sensitivity={180}
+                  sendToBackOnClick={false}
+                  cards={stackCards}
+                  onCardClick={handleCardClick}
+                  enablePreview={true}
+                />
+              </div>
             </div>
           </motion.div>
 

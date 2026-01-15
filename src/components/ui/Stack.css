@@ -73,3 +73,23 @@
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .stack-container {
+    /* Reduce perspective on mobile for better performance */
+    perspective: 400px;
+  }
+  
+  .card {
+    /* Smaller border radius on mobile */
+    border-radius: 0.75rem;
+  }
+  
+  .card img,
+  .card-image {
+    /* Optimize image rendering on mobile */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: optimize-contrast;
+  }
+}

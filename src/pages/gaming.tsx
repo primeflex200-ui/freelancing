@@ -101,7 +101,7 @@ export default function Gaming() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="max-w-2xl mx-auto"
           >
-            <div style={{ width: '100%', maxWidth: '500px', height: '500px', margin: '0 auto' }}>
+            <div className="w-full h-full md:max-w-[500px] md:h-[500px] max-w-[350px] h-[350px] mx-auto">
               <Stack
                 randomRotation={true}
                 sensitivity={180}
