@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, ArrowLeft } from "lucide-react";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Logo, LogoCompact } from "@/components/ui/Logo";
 
 export function Navbar() {
   const [location, setLocation] = useLocation();
@@ -50,7 +49,7 @@ export function Navbar() {
         scrolled ? "shadow-lg" : ""
       }`}>
         
-        {/* Back Button or Logo */}
+        {/* Back Button or Empty Space */}
         {showBackButton ? (
           <button
             onClick={handleBack}
@@ -60,14 +59,9 @@ export function Navbar() {
             <span className="font-medium text-sm text-black hidden sm:inline">Back</span>
           </button>
         ) : (
-          <Link href="/" className="flex items-center cursor-pointer">
-            <div className="hidden sm:block">
-              <Logo showText={true} />
-            </div>
-            <div className="sm:hidden">
-              <LogoCompact />
-            </div>
-          </Link>
+          <div className="flex items-center">
+            {/* Empty space where logo was */}
+          </div>
         )}
 
         {/* Desktop Navigation Links */}
