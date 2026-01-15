@@ -158,7 +158,9 @@ export default async function handler(request, response) {
     }
 
     // Handle admin project deletion routes
-    if (method === 'DELETE' && urlPath.includes('/admin/projects')) {
+    if (method === 'DELETE') {
+      console.log('DELETE request received:', { urlPath, url });
+      
       if (!supabase) {
         return response.status(200).json({ 
           success: true, 
@@ -166,8 +168,9 @@ export default async function handler(request, response) {
         });
       }
 
-      // Clear all projects
-      if (urlPath === '/api/admin/projects') {
+      // Clear all projects - check multiple possible URL patterns
+      if (urlPath === '/api/admin/projects' || urlPath.endsWith('/admin/projects') || url.includes('/admin/projects') && !url.includes('/admin/projects/')) {
+        console.log('Clearing all projects...');
         const { error } = await supabase
           .from('projects')
           .delete()
@@ -184,23 +187,27 @@ export default async function handler(request, response) {
         return response.status(200).json({ success: true, message: "All projects cleared successfully" });
       }
 
-      // Delete specific project
-      const projectId = urlPath.split('/').pop();
-      if (projectId) {
-        const { error } = await supabase
-          .from('projects')
-          .delete()
-          .eq('id', projectId);
+      // Delete specific project - check if URL contains a project ID
+      if (urlPath.includes('/admin/projects/')) {
+        const projectId = urlPath.split('/').pop();
+        console.log('Deleting specific project:', projectId);
         
-        if (error) {
-          console.error('Supabase error:', error);
-          return response.status(500).json({ 
-            success: false, 
-            error: `Database error: ${error.message}` 
-          });
-        }
+        if (projectId && projectId !== 'projects') {
+          const { error } = await supabase
+            .from('projects')
+            .delete()
+            .eq('id', projectId);
+          
+          if (error) {
+            console.error('Supabase error:', error);
+            return response.status(500).json({ 
+              success: false, 
+              error: `Database error: ${error.message}` 
+            });
+          }
 
-        return response.status(200).json({ success: true, message: "Project deleted successfully" });
+          return response.status(200).json({ success: true, message: "Project deleted successfully" });
+        }
       }
     }
     
