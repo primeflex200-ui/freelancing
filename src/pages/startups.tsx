@@ -104,7 +104,7 @@ export default function Startups() {
             <div className="w-full h-full md:max-w-[500px] md:h-[500px] max-w-[350px] h-[350px] mx-auto">
               <Stack
                 randomRotation={true}
-                sensitivity={180}
+                sensitivity={120} // More sensitive - reduced from 180 to 120
                 sendToBackOnClick={false}
                 cards={stackCards}
                 onCardClick={handleCardClick}
