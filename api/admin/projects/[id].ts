@@ -1,4 +1,6 @@
-export default function handler(req, res) {
+import type { VercelRequest, VercelResponse } from '@vercel/node';
+
+export default function handler(req: VercelRequest, res: VercelResponse) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
@@ -19,7 +21,7 @@ export default function handler(req, res) {
         success: true, 
         message: "Project deleted successfully (demo mode)" 
       });
-    } catch (error) {
+    } catch (error: any) {
       return res.status(500).json({ 
         success: false, 
         error: 'Server error: ' + error.message 
